@@ -12,7 +12,7 @@
         public Task<T> AddAsync(T _object,
                                 CancellationToken ct = default);
 
-        public Task<bool> UpdateAsync(T _object,
+        public Task<T> UpdateAsync(T _object,
                                       CancellationToken ct = default);
 
         public Task<bool> DeleteAsync(T _object,
