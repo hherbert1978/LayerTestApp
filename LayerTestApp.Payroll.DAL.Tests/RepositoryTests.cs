@@ -1,14 +1,7 @@
-using LayerTestApp.Common.Logging;
 using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Models;
 using LayerTestApp.Payroll.DAL.Repositories;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using NUnit.Framework;
 using Serilog.Extensions.Logging;
-using System.Reflection;
 
 namespace LayerTestApp.Payroll.DAL.Tests
 {
@@ -54,7 +47,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
             {
                 Log.Information("PayGradeRepository Test - GetAllActivePayGradesAsync - Test finished with error. \r\n");
             }
-            
+
         }
     }
 }

@@ -1,13 +1,5 @@
-using LayerTestApp.Common.Logging;
 using LayerTestApp.Payroll.DAL.Data;
 using LayerTestApp.Payroll.DAL.Models;
-using LayerTestApp.Payroll.DAL.Repositories;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using NUnit.Framework;
-
-using System.Reflection;
 
 namespace LayerTestApp.Payroll.DAL.Tests
 {
@@ -16,8 +8,9 @@ namespace LayerTestApp.Payroll.DAL.Tests
     {
         private LTAPayrollDbContext _ltaPayrollDbContext;
 
-        [OneTimeSetUp] 
-        public void OneTimeSetUp() {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
             Log.Information("------------------------------------------------------------------------------------------");
             Log.Information("Starting SelectTests.");
             Log.Information("------------------------------------------------------------------------------------------\r\n");
@@ -27,7 +20,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public void Setup()
         {
             string[] args = Array.Empty<string>();
-            LTAPayrollDbContextFactory ltaPayrollContextFactory = new ();
+            LTAPayrollDbContextFactory ltaPayrollContextFactory = new();
             _ltaPayrollDbContext = ltaPayrollContextFactory.CreateDbContext(args);
         }
 
@@ -44,7 +37,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
             catch
             {
                 Log.Information("GetAllPayGrades - Test finished with error. \r\n");
-            }            
+            }
         }
 
         [Test]

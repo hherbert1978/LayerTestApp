@@ -2,10 +2,7 @@
 using LayerTestApp.Payroll.DAL.Data;
 using LayerTestApp.Payroll.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace LayerTestApp.Payroll.DAL.Tests
@@ -22,8 +19,9 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public LTAPayrollDbContext LtaPayrollDbContext;
         public Microsoft.Extensions.Logging.ILogger Logger;
 
-        [OneTimeSetUp] 
-        public void OneTimeRootSetup() {
+        [OneTimeSetUp]
+        public void OneTimeRootSetup()
+        {
 
             var serilog = SerilogConfigurationHelper.ConfigureForFile("DALTests", "Payroll.DAL.TestLog.txt");
 
@@ -50,9 +48,10 @@ namespace LayerTestApp.Payroll.DAL.Tests
             Log.Information("Database schema \"{dbSchema}\" created. \r\n");
         }
 
-        [OneTimeTearDown] 
-        public void OneTimeRootTearDown() {
-        
+        [OneTimeTearDown]
+        public void OneTimeRootTearDown()
+        {
+
         }
 
         private void CreateTestData()

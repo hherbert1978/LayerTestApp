@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LayerTestApp.Payroll.DAL.Models
+﻿namespace LayerTestApp.Payroll.DAL.Models
 {
     public class BaseModel
     {
@@ -21,7 +15,7 @@ namespace LayerTestApp.Payroll.DAL.Models
             get => _isDeleted ?? true;
             set => _isDeleted = value;
         }
-     
+
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }

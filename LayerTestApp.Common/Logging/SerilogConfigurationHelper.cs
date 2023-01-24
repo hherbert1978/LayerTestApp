@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog;
-using Serilog.Events;
 
 namespace LayerTestApp.Common.Logging
 {
@@ -48,9 +47,9 @@ namespace LayerTestApp.Common.Logging
                     new Serilog.Sinks.Elasticsearch.ElasticsearchSinkOptions(
                         new Uri(Configuration["Logging:ElasticSearchURL"]))
                     {
-                            AutoRegisterTemplate = true,
-                            AutoRegisterTemplateVersion = Serilog.Sinks.Elasticsearch.AutoRegisterTemplateVersion.ESv7,
-                            IndexFormat = "MyProjectName-log-{0:yyyy.MM}"
+                        AutoRegisterTemplate = true,
+                        AutoRegisterTemplateVersion = Serilog.Sinks.Elasticsearch.AutoRegisterTemplateVersion.ESv7,
+                        IndexFormat = "MyProjectName-log-{0:yyyy.MM}"
                     }
                 )
                 .WriteTo.Async(a => a.Console())

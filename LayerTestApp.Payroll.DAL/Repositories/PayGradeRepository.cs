@@ -23,15 +23,15 @@ namespace LayerTestApp.Payroll.DAL.Repositories
         {
             var data = await _context.PayGrades.ToListAsync(ct);
             var filteredData = filterForActive ? data.Where(x => x.IsActive).ToList() : data;
-            return filteredData;        
+            return filteredData;
         }
 
         public async Task<PayGradeDAL> GetByIdAsync(int id, bool filterForActive = true, CancellationToken ct = default)
         {
             var data = await _context.PayGrades.ToListAsync(ct);
             var payGrade = data.Where(x => x.PayGradeId == id);
-            var filteredData = filterForActive ? (payGrade ??  payGrade.Where(x => x.IsActive)) : payGrade; 
-                                              
+            var filteredData = filterForActive ? (payGrade ?? payGrade.Where(x => x.IsActive)) : payGrade;
+
             return filteredData.FirstOrDefault();
         }
 
@@ -52,7 +52,7 @@ namespace LayerTestApp.Payroll.DAL.Repositories
         {
             throw new NotImplementedException();
         }
-            
+
         public void Dispose() => GC.SuppressFinalize(this);
 
     }

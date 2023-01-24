@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LayerTestApp.Payroll.DAL.Contracts
+﻿namespace LayerTestApp.Payroll.DAL.Contracts
 {
     public interface IRepository<T> : IDisposable
     {
@@ -23,6 +17,6 @@ namespace LayerTestApp.Payroll.DAL.Contracts
 
         public Task<bool> DeleteAsync(T _object,
                                       CancellationToken ct = default);
-    
+
     }
 }
