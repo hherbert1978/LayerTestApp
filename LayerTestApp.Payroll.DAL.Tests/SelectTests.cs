@@ -24,7 +24,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
             _ltaPayrollDbContext = ltaPayrollContextFactory.CreateDbContext(args);
         }
 
-        [Test]
+        [Test, Order(1)]
         public void GetAllPayGrades()
         {
             Log.Information("Starting GetAllPayGrades - Test.");
@@ -34,13 +34,13 @@ namespace LayerTestApp.Payroll.DAL.Tests
                 Assert.That(payGrades.Count(), Is.EqualTo(5));
                 Log.Information("GetAllPayGrades - Test finished successfully. \r\n");
             }
-            catch
+            catch (Exception ex)
             {
-                Log.Information("GetAllPayGrades - Test finished with error. \r\n");
+                Log.Information(ex, "GetAllPayGrades - Test finished with error. \r\n");
             }
         }
 
-        [Test]
+        [Test, Order(2)]
         public void GetAllActivePayGrades()
         {
             Log.Information("Starting GetAllActivePayGrades - Test.");
@@ -50,9 +50,9 @@ namespace LayerTestApp.Payroll.DAL.Tests
                 Assert.That(payGrades.Count(), Is.EqualTo(4));
                 Log.Information("GetAllActivePayGrades - Test finished successfully. \r\n");
             }
-            catch
+            catch (Exception ex)
             {
-                Log.Information("GetAllActivePayGrades - Test finished with error. \r\n");
+                Log.Information(ex, "GetAllActivePayGrades - Test finished with error. \r\n");
             }
         }
     }

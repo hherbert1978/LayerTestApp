@@ -6,17 +6,32 @@
 
         public string PayGradeName { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
-        public bool IsDeleting { get; set; }
+        public bool IsDeleting { get; set; } = false;
 
         public PayGrade() { }
+
+        public PayGrade(int payGradeId)
+        {
+            PayGradeId = payGradeId;
+        }
 
         public PayGrade(string payGradeName)
         {
             PayGradeName = payGradeName;
-            IsActive = true;
-            IsDeleting = false;
+        }
+
+        public PayGrade(string payGradeName, bool isActive)
+        {
+            PayGradeName = payGradeName;
+            IsActive = isActive;
+        }
+
+        public PayGrade(int payGradeId, bool isActive)
+        {
+            PayGradeId = payGradeId;
+            IsActive = isActive;
         }
 
         public PayGrade(int payGradeId, string payGradeName, bool isActive)
@@ -24,15 +39,7 @@
             PayGradeId = payGradeId;
             PayGradeName = payGradeName;
             IsActive = isActive;
-            IsDeleting = false;
         }
 
-        public PayGrade(int payGradeId, string payGradeName, bool isActive, bool isDeleting)
-        {
-            PayGradeId = payGradeId;
-            PayGradeName = payGradeName;
-            IsActive = isDeleting ? false : isActive;
-            IsDeleting = isDeleting;
-        }
     }
 }

@@ -23,7 +23,7 @@ namespace LayerTestApp.Payroll.DAL.Configuration
             entity.Property(q => q.PayGradeName)
                 .HasColumnOrder(1)
                 .HasColumnName("name")
-                .HasMaxLength(30)
+                .HasMaxLength(50)
                 .IsRequired(true);
 
             #region "BaseProperties"

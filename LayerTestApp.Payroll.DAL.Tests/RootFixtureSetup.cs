@@ -4,6 +4,7 @@ using LayerTestApp.Payroll.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 
 namespace LayerTestApp.Payroll.DAL.Tests
 {
@@ -45,7 +46,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
             // Create new Test-Schema
             LtaPayrollDbContext.Database.EnsureCreated();
             CreateTestData();
-            Log.Information("Database schema \"{dbSchema}\" created. \r\n");
+            Log.Information($"Database schema \"{dbSchema}\" created. \r\n");
         }
 
         [OneTimeTearDown]
@@ -61,7 +62,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
             LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Lehrling" });
             LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Feldarbeiter" });
             LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Hilfsarbeiter", IsActive = false });
-            LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Aushilfe", IsActive = false, IsDeleted = true });
+            LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Aushilfe", IsActive = false, IsDeleted = true, DeletedAt = DateAndTime.DateAdd(DateInterval.Second, 30, DateTime.UtcNow) });
             LtaPayrollDbContext.SaveChanges();
         }
     }
