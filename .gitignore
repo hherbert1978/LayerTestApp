@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/LayerTestApp.Common/Logging/ISerilogLogger.cs
+/LayerTestApp.Common/Logging/LoggingLevels.cs
+/LayerTestApp.Common/Logging/SerilogLogger.cs
