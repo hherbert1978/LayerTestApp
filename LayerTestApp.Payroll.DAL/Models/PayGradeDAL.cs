@@ -5,5 +5,11 @@
         public int PayGradeId { get; set; }
 
         public string PayGradeName { get; set; }
+
+        //public DateTime CreatedAt { get; set; }
+
+        //public DateTime? LastUpdatedAt { get; set; }
+
+        //public DateTime? DeletedAt { get; set; }
     }
 }

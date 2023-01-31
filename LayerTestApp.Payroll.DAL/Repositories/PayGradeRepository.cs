@@ -68,8 +68,9 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             {
                 payGradeDAL.PayGradeName = payGrade.PayGradeName ?? payGradeDAL.PayGradeName;
                 payGradeDAL.IsActive = payGrade.IsActive;
-                payGradeDAL.UpdatedAt = DateTime.UtcNow;
+                //payGradeDAL.LastUpdatedAt = DateTime.UtcNow;
 
+                _context.Update(payGradeDAL);
                 await _context.SaveChangesAsync(ct);
 
                 _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" was updated.", payGradeDAL.PayGradeId.ToString());
@@ -91,10 +92,11 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             }
             else
             {
-                payGradeDAL.IsDeleted = true;
-                payGradeDAL.DeletedAt = DateTime.UtcNow;
-                await _context.SaveChangesAsync(ct);
+                //payGradeDAL.DeletedAt = DateTime.UtcNow;
 
+                _context.Remove(payGradeDAL);
+                await _context.SaveChangesAsync(ct);
+                              
                 _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" was deleted.", payGradeDAL.PayGradeId.ToString());
 
                 return true;

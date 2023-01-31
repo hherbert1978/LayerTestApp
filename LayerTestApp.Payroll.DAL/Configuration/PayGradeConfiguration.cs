@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LayerTestApp.Payroll.DAL.Configuration
 {
-    public class PayGradeConfiguration
+    public class PayGradeConfiguration : BaseModelConfiguration<PayGradeDAL>
     {
-        public PayGradeConfiguration(EntityTypeBuilder<PayGradeDAL> entity)
+        public override void Configure(EntityTypeBuilder<PayGradeDAL> entity)
         {
             entity.HasQueryFilter(q => !q.IsDeleted);
 
@@ -26,32 +26,7 @@ namespace LayerTestApp.Payroll.DAL.Configuration
                 .HasMaxLength(50)
                 .IsRequired(true);
 
-            #region "BaseProperties"
-
-            entity.Property(q => q.IsActive)
-                .HasColumnName("is_active")
-                .HasDefaultValue(true)
-                .IsRequired(true);
-
-            entity.Property(q => q.IsDeleted)
-                .HasColumnName("is_deleted")
-                .HasDefaultValue(false)
-                .IsRequired(true);
-
-            entity.Property(q => q.CreatedAt)
-                .HasColumnName("created_at")
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .IsRequired(true);
-
-            entity.Property(q => q.UpdatedAt)
-                .HasColumnName("updated_at")
-                .IsRequired(false);
-
-            entity.Property(q => q.DeletedAt)
-                 .HasColumnName("deleted_at")
-                 .IsRequired(false);
-
-            #endregion
+            base.Configure(entity);
 
             #region "DefaultData"
 

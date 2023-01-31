@@ -4,7 +4,7 @@ using LayerTestApp.Payroll.DAL.Models;
 namespace LayerTestApp.Payroll.DAL.Tests
 {
     [TestFixture, Order(1)]
-    public class SelectTests
+    public class ContextTests
     {
         private LTAPayrollDbContext _ltaPayrollDbContext;
 
@@ -12,7 +12,15 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public void OneTimeSetUp()
         {
             Log.Information("------------------------------------------------------------------------------------------");
-            Log.Information("Starting SelectTests.");
+            Log.Information("Starting ContextTests.");
+            Log.Information("------------------------------------------------------------------------------------------\r\n");
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Log.Information("------------------------------------------------------------------------------------------");
+            Log.Information("Finishing ContextTests.");
             Log.Information("------------------------------------------------------------------------------------------\r\n");
         }
 

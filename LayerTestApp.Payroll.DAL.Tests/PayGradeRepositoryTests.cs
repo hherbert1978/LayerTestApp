@@ -7,7 +7,7 @@ using Serilog.Extensions.Logging;
 namespace LayerTestApp.Payroll.DAL.Tests
 {
     [TestFixture, Order(2)]
-    public class RepositoryTests
+    public class PayGradeRepositoryTests
     {
         private LTAPayrollDbContext _ltaPayrollDbContext;
         private ILogger<PayGradeRepository> _logger;
@@ -17,7 +17,15 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public void OneTimeSetUp()
         {
             Log.Information("------------------------------------------------------------------------------------------");
-            Log.Information("Starting RepositoryTests.");
+            Log.Information("Starting PayGradeRepositoryTests.");
+            Log.Information("------------------------------------------------------------------------------------------\r\n");
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Log.Information("------------------------------------------------------------------------------------------");
+            Log.Information("Finishing PayGradeRepositoryTests.");
             Log.Information("------------------------------------------------------------------------------------------\r\n");
         }
 

@@ -35,7 +35,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
             LtaPayrollDbContext = contextFactory.CreateDbContext(null);
 
             Log.Information("------------------------------------------------------------------------------------------");
-            Log.Information("Starting TestSetup.");
+            Log.Information("Starting TestSetup DAL.");
             Log.Information("------------------------------------------------------------------------------------------\r\n");
 
             // First delete Test-Schema

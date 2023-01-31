@@ -1,6 +1,6 @@
 ﻿namespace LayerTestApp.Payroll.DAL.Models
 {
-    public class BaseModel
+    public abstract class BaseModel : AuditModel
     {
         private bool? _isActive;
         public bool IsActive
@@ -16,10 +16,5 @@
             set => _isDeleted = value;
         }
 
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime? UpdatedAt { get; set; }
-
-        public DateTime? DeletedAt { get; set; }
     }
 }
