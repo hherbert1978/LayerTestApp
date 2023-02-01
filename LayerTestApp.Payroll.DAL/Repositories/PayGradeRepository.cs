@@ -1,105 +1,18 @@
 ﻿using LayerTestApp.Payroll.DAL.Contracts;
 using LayerTestApp.Payroll.DAL.Data;
 using LayerTestApp.Payroll.DAL.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Serilog.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LayerTestApp.Payroll.DAL.Repositories
 {
-    public class PayGradeRepository : IRepository<PayGrade>
+    public class PayGradeRepository : BaseRepository<PayGrade>, IPayGradeRepository
     {
-        private readonly ILogger _logger;
-        private readonly LTAPayrollDbContext _context;
-
-        public PayGradeRepository(ILogger<PayGradeRepository> logger,
-                                  LTAPayrollDbContext context)
-        {
-            _logger = logger;
-            _context = context;
-        }
-
-        public async Task<List<PayGrade>> GetAllAsync(bool filterForActive = true, CancellationToken ct = default)
-        {
-            var data = await _context.PayGrades.ToListAsync(ct);
-            var filteredData = filterForActive ? data.Where(x => x.IsActive).ToList()
-                                               : data;
-
-            return filteredData;
-        }
-
-        public async Task<PayGrade> GetByIdAsync(int id, bool filterForActive = true, CancellationToken ct = default)
-        {
-            var data = await _context.PayGrades.ToListAsync(ct);
-
-            var filteredData = filterForActive ? data.Where(x => x.PayGradeId == id && x.IsActive).FirstOrDefault()
-                                               : data.Where(x => x.PayGradeId == id).FirstOrDefault();
-
-            return filteredData;
-        }
-
-        public async Task<PayGrade> AddAsync(PayGrade payGrade, CancellationToken ct = default)
-        {
-            _logger.Log(LogLevel.Information, "Creating new PayGrade with name: \"{PayGradeName}\".", payGrade.PayGradeName);
-
-            var newPayGrade = (await _context.PayGrades.AddAsync(payGrade, ct)).Entity;
-            await _context.SaveChangesAsync(ct);
-
-            _logger.Log(LogLevel.Information, "A new PayGrade with name: \"{PayGradeName}\" was created.", newPayGrade.PayGradeName);
-
-            return newPayGrade;
-        }
-
-        public async Task<PayGrade> UpdateAsync(PayGrade payGrade, CancellationToken ct = default)
-        {
-            _logger.Log(LogLevel.Information, "Updating PayGrade with id: \"{PayGradeId}\" & name: \"{PayGradeName}\".", payGrade.PayGradeId.ToString(), payGrade.PayGradeName);
-
-            //var data = await _context.PayGrades.ToListAsync(ct);
-            //var payGradeDAL = data.Where(x => x.PayGradeId == payGrade.PayGradeId).FirstOrDefault();
-
-            //if (payGradeDAL == null)
-            //{
-            //    _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" not exists, update failed.", payGrade.PayGradeId.ToString());
-            //    throw new KeyNotFoundException($"No PayGrade with id \"{payGrade.PayGradeId}\" exists.");
-            //}
-            //else
-            //{
-            //    payGradeDAL.PayGradeName = payGrade.PayGradeName ?? payGradeDAL.PayGradeName;
-            //    payGradeDAL.IsActive = payGrade.IsActive;
-              
-
-                _context.Update(payGrade);
-                await _context.SaveChangesAsync(ct);
-
-                _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" was updated.", payGrade.PayGradeId.ToString());
-
-                return payGrade;
-            //}
-        }
-
-        public async Task<bool> DeleteAsync(PayGrade payGrade, CancellationToken ct = default)
-        {
-            _logger.Log(LogLevel.Information, "Deleting PayGrade with id: \"{PayGradeId}\".", payGrade.PayGradeId.ToString());
-            var data = await _context.PayGrades.ToListAsync(ct);
-            var payGradeDAL = data.Where(x => x.PayGradeId == payGrade.PayGradeId).FirstOrDefault();
-
-            if (payGradeDAL == null)
-            {
-                _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" not exists, delete failed.", payGrade.PayGradeId.ToString());
-                throw new KeyNotFoundException($"No PayGrade with id \"{payGrade.PayGradeId}\" exists.");
-            }
-            else
-            {
-          
-
-                _context.Remove(payGradeDAL);
-                await _context.SaveChangesAsync(ct);
-                              
-                _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" was deleted.", payGradeDAL.PayGradeId.ToString());
-
-                return true;
-            }
-        }
-
-        public void Dispose() => GC.SuppressFinalize(this);
+        public PayGradeRepository(ILogger<PayGradeRepository> logger, LTAPayrollDbContext context) : base(logger, context) { }
     }
 }
