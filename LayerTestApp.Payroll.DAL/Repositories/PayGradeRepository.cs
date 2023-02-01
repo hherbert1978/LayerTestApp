@@ -1,7 +1,5 @@
 ﻿using LayerTestApp.Payroll.DAL.Contracts;
 using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Entities;
-using LayerTestApp.Payroll.DAL.Mapper;
 using LayerTestApp.Payroll.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -26,7 +24,7 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             var filteredData = filterForActive ? data.Where(x => x.IsActive).ToList()
                                                : data;
 
-            return Mapping.Mapper.Map<List<PayGrade>>(filteredData);
+            return filteredData;
         }
 
         public async Task<PayGrade> GetByIdAsync(int id, bool filterForActive = true, CancellationToken ct = default)
@@ -36,47 +34,46 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             var filteredData = filterForActive ? data.Where(x => x.PayGradeId == id && x.IsActive).FirstOrDefault()
                                                : data.Where(x => x.PayGradeId == id).FirstOrDefault();
 
-            return Mapping.Mapper.Map<PayGrade>(filteredData);
+            return filteredData;
         }
 
         public async Task<PayGrade> AddAsync(PayGrade payGrade, CancellationToken ct = default)
         {
             _logger.Log(LogLevel.Information, "Creating new PayGrade with name: \"{PayGradeName}\".", payGrade.PayGradeName);
 
-            var payGradeDAL = Mapping.Mapper.Map<PayGradeDAL>(payGrade);
-            var newPayGradeDAL = await _context.PayGrades.AddAsync(payGradeDAL, ct);
+            var newPayGrade = (await _context.PayGrades.AddAsync(payGrade, ct)).Entity;
             await _context.SaveChangesAsync(ct);
 
-            _logger.Log(LogLevel.Information, "A new PayGrade with name: \"{PayGradeName}\" was created.", newPayGradeDAL.Entity.PayGradeName);
+            _logger.Log(LogLevel.Information, "A new PayGrade with name: \"{PayGradeName}\" was created.", newPayGrade.PayGradeName);
 
-            return Mapping.Mapper.Map<PayGrade>(newPayGradeDAL.Entity);
+            return newPayGrade;
         }
 
         public async Task<PayGrade> UpdateAsync(PayGrade payGrade, CancellationToken ct = default)
         {
             _logger.Log(LogLevel.Information, "Updating PayGrade with id: \"{PayGradeId}\" & name: \"{PayGradeName}\".", payGrade.PayGradeId.ToString(), payGrade.PayGradeName);
 
-            var data = await _context.PayGrades.ToListAsync(ct);
-            var payGradeDAL = data.Where(x => x.PayGradeId == payGrade.PayGradeId).FirstOrDefault();
+            //var data = await _context.PayGrades.ToListAsync(ct);
+            //var payGradeDAL = data.Where(x => x.PayGradeId == payGrade.PayGradeId).FirstOrDefault();
 
-            if (payGradeDAL == null)
-            {
-                _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" not exists, update failed.", payGrade.PayGradeId.ToString());
-                throw new KeyNotFoundException($"No PayGrade with id \"{payGrade.PayGradeId}\" exists.");
-            }
-            else
-            {
-                payGradeDAL.PayGradeName = payGrade.PayGradeName ?? payGradeDAL.PayGradeName;
-                payGradeDAL.IsActive = payGrade.IsActive;
-                //payGradeDAL.LastUpdatedAt = DateTime.UtcNow;
+            //if (payGradeDAL == null)
+            //{
+            //    _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" not exists, update failed.", payGrade.PayGradeId.ToString());
+            //    throw new KeyNotFoundException($"No PayGrade with id \"{payGrade.PayGradeId}\" exists.");
+            //}
+            //else
+            //{
+            //    payGradeDAL.PayGradeName = payGrade.PayGradeName ?? payGradeDAL.PayGradeName;
+            //    payGradeDAL.IsActive = payGrade.IsActive;
+              
 
-                _context.Update(payGradeDAL);
+                _context.Update(payGrade);
                 await _context.SaveChangesAsync(ct);
 
-                _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" was updated.", payGradeDAL.PayGradeId.ToString());
+                _logger.Log(LogLevel.Information, "PayGrade with id: \"{PayGradeId}\" was updated.", payGrade.PayGradeId.ToString());
 
-                return Mapping.Mapper.Map<PayGrade>(payGradeDAL);
-            }
+                return payGrade;
+            //}
         }
 
         public async Task<bool> DeleteAsync(PayGrade payGrade, CancellationToken ct = default)
@@ -92,7 +89,7 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             }
             else
             {
-                //payGradeDAL.DeletedAt = DateTime.UtcNow;
+          
 
                 _context.Remove(payGradeDAL);
                 await _context.SaveChangesAsync(ct);

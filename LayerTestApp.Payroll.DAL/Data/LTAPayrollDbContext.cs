@@ -10,7 +10,7 @@ namespace LayerTestApp.Payroll.DAL.Data
     {
         public LTAPayrollDbContext(DbContextOptions<LTAPayrollDbContext> options) : base(options) { }
 
-        public DbSet<PayGradeDAL> PayGrades { get; set; }
+        public DbSet<PayGrade> PayGrades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

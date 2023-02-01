@@ -57,12 +57,12 @@ namespace LayerTestApp.Payroll.DAL.Tests
 
         private void CreateTestData()
         {
-            LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Meister" });
-            LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Geselle" });
-            LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Lehrling" });
-            LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Feldarbeiter" });
-            LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Hilfsarbeiter", IsActive = false });
-            LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Aushilfe", IsActive = false, IsDeleted = true, DeletedAt = DateAndTime.DateAdd(DateInterval.Second, 30, DateTime.UtcNow) });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Meister" });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Geselle" });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Lehrling" });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Feldarbeiter" });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Hilfsarbeiter", IsActive = false });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Aushilfe", IsActive = false, IsDeleted = true, DeletedAt = DateAndTime.DateAdd(DateInterval.Second, 30, DateTime.UtcNow) });
             LtaPayrollDbContext.SaveChanges();
         }
     }

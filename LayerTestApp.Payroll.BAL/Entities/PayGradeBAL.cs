@@ -1,6 +1,6 @@
-﻿namespace LayerTestApp.Payroll.DAL.Entities
+﻿namespace LayerTestApp.Payroll.BAL.Entities
 {
-    public class PayGrade
+    public class PayGradeBAL
     {
         public int? PayGradeId { get; set; }
 
@@ -10,31 +10,31 @@
 
         public bool IsDeleting { get; set; } = false;
 
-        public PayGrade() { }
+        public PayGradeBAL() { }
 
-        public PayGrade(int payGradeId)
+        public PayGradeBAL(int payGradeId)
         {
             PayGradeId = payGradeId;
         }
 
-        public PayGrade(string payGradeName)
+        public PayGradeBAL(string payGradeName)
         {
             PayGradeName = payGradeName;
         }
 
-        public PayGrade(string payGradeName, bool isActive)
+        public PayGradeBAL(string payGradeName, bool isActive)
         {
             PayGradeName = payGradeName;
             IsActive = isActive;
         }
 
-        public PayGrade(int payGradeId, bool isActive)
+        public PayGradeBAL(int payGradeId, bool isActive)
         {
             PayGradeId = payGradeId;
             IsActive = isActive;
         }
 
-        public PayGrade(int payGradeId, string payGradeName, bool isActive)
+        public PayGradeBAL(int payGradeId, string payGradeName, bool isActive)
         {
             PayGradeId = payGradeId;
             PayGradeName = payGradeName;

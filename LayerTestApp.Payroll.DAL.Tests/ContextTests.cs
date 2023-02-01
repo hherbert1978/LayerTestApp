@@ -36,7 +36,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public void GetAllPayGrades()
         {
             Log.Information("Starting GetAllPayGrades - Test.");
-            IEnumerable<PayGradeDAL> payGrades = _ltaPayrollDbContext.PayGrades.ToList();
+            IEnumerable<PayGrade> payGrades = _ltaPayrollDbContext.PayGrades.ToList();
             try
             {
                 Assert.That(payGrades.Count(), Is.EqualTo(5));
@@ -52,7 +52,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public void GetAllActivePayGrades()
         {
             Log.Information("Starting GetAllActivePayGrades - Test.");
-            IEnumerable<PayGradeDAL> payGrades = _ltaPayrollDbContext.PayGrades.Where(x => x.IsActive).ToList();
+            IEnumerable<PayGrade> payGrades = _ltaPayrollDbContext.PayGrades.Where(x => x.IsActive).ToList();
             try
             {
                 Assert.That(payGrades.Count(), Is.EqualTo(4));

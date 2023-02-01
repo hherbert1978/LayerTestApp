@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LayerTestApp.Payroll.DAL.Configuration
 {
-    public class PayGradeConfiguration : BaseModelConfiguration<PayGradeDAL>
+    public class PayGradeConfiguration : BaseModelConfiguration<PayGrade>
     {
-        public override void Configure(EntityTypeBuilder<PayGradeDAL> entity)
+        public override void Configure(EntityTypeBuilder<PayGrade> entity)
         {
             entity.HasQueryFilter(q => !q.IsDeleted);
 

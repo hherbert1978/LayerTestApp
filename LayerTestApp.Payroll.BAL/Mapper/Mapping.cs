@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace LayerTestApp.Payroll.DAL.Mapper
+namespace LayerTestApp.Payroll.BAL.Mapper
 {
     public static class Mapping
     {
@@ -8,8 +8,8 @@ namespace LayerTestApp.Payroll.DAL.Mapper
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<DALToEntityProfile>();
-                cfg.AddProfile<EntityToDALProfile>();
+                cfg.AddProfile<BALToEntityProfile>();
+                cfg.AddProfile<EntityToBALProfile>();
             });
 
             var mapper = config.CreateMapper();
