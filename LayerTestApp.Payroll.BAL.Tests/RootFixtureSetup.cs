@@ -1,7 +1,8 @@
 ﻿using LayerTestApp.Common.Logging;
+using LayerTestApp.Payroll.DAL;
 using LayerTestApp.Payroll.DAL.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
@@ -15,53 +16,31 @@ namespace LayerTestApp.Payroll.BAL.Tests
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
-        public LTAPayrollDbContext LtaPayrollDbContext;
-        public Microsoft.Extensions.Logging.ILogger Logger;
+        //public LTAPayrollDbContext LtaPayrollDbContext;
+        //public Microsoft.Extensions.Logging.ILogger Logger;
 
         [OneTimeSetUp]
         public void OneTimeRootSetup()
         {
 
-            var serilog = SerilogConfigurationHelper.ConfigureForFile("DALTests", "Payroll.DAL.TestLog.txt");
+            //var serilog = SerilogConfigurationHelper.ConfigureForFile("BALTests", "Payroll.BAL.TestLog.txt");
 
-            var loggerFactory = new LoggerFactory()
-                .AddSerilog(serilog);
+            //var loggerFactory = new LoggerFactory()
+            //    .AddSerilog(serilog);
 
-            Logger = loggerFactory.CreateLogger("TestsLogger");
+            //Logger = loggerFactory.CreateLogger("TestsLogger");
 
-            LTAPayrollDbContextFactory contextFactory = new();
-            LtaPayrollDbContext = contextFactory.CreateDbContext(null);
+            //LTAPayrollDbContextFactory contextFactory = new();
+            //LtaPayrollDbContext = contextFactory.CreateDbContext(null);
+            var services = new ServiceCollection();
 
-            Log.Information("------------------------------------------------------------------------------------------");
-            Log.Information("Starting TestSetup BAL.");
-            Log.Information("------------------------------------------------------------------------------------------\r\n");
+            services.AddPayrollDALDI(Configuration)
+                    .AddPayrollBALDI(Configuration);
 
-            //// First delete Test-Schema
-            //string dbSchema = Configuration.GetValue<string>("Database:DefaultSchemas:LTAPayrollSchema");
-            //LtaPayrollDbContext.Database.ExecuteSqlRaw($"DROP SCHEMA IF EXISTS {dbSchema} CASCADE");
-            //Log.Information($"Database schema \"{dbSchema}\" deleted.");
+            var provider = services.BuildServiceProvider();
 
-            //// Create new Test-Schema
-            //LtaPayrollDbContext.Database.EnsureCreated();
-            //CreateTestData();
-            //Log.Information($"Database schema \"{dbSchema}\" created. \r\n");
+
+
         }
-
-        //[OneTimeTearDown]
-        //public void OneTimeRootTearDown()
-        //{
-
-        //}
-
-        //private void CreateTestData()
-        //{
-        //    LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Meister" });
-        //    LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Geselle" });
-        //    LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Lehrling" });
-        //    LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Feldarbeiter" });
-        //    LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Hilfsarbeiter", IsActive = false });
-        //    LtaPayrollDbContext.PayGrades.Add(new PayGradeDAL { PayGradeName = "Aushilfe", IsActive = false, IsDeleted = true, DeletedAt = DateAndTime.DateAdd(DateInterval.Second, 30, DateTime.UtcNow) });
-        //    LtaPayrollDbContext.SaveChanges();
-        //}
     }
 }

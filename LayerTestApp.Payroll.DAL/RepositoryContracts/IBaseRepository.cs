@@ -1,7 +1,6 @@
-﻿using LayerTestApp.Payroll.DAL.Models;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace LayerTestApp.Payroll.DAL.Contracts
+namespace LayerTestApp.Payroll.DAL.RepositoryContracts
 {
     public interface IBaseRepository<T> : IDisposable
     {

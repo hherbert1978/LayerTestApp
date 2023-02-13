@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LayerTestApp.Payroll.BAL.DTOs.PayGradeDTOs
+﻿namespace LayerTestApp.Payroll.BAL.DTOs.PayGradeDTOs
 {
-    internal class CreatePayGradeDTO
+    public class CreatePayGradeDTO
     {
+        public string PayGradeName { get; set; }
     }
 }

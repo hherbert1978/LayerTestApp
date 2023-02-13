@@ -1,18 +1,16 @@
 using LayerTestApp.Payroll.DAL.Data;
 using LayerTestApp.Payroll.DAL.Models;
 using LayerTestApp.Payroll.DAL.Repositories;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog.Extensions.Logging;
-using System.Linq.Expressions;
 
 namespace LayerTestApp.Payroll.DAL.Tests
 {
     [TestFixture, Order(2)]
     public class PayGradeRepositoryTests
     {
-        private LTAPayrollDbContext _ltaPayrollDbContext;
-        private ILogger<PayGradeRepository> _logger;
-        //private PayGradeRepository<PayGrade> _payGradeRepository;
         private PayGradeRepository _payGradeRepository;
 
         [OneTimeSetUp]
@@ -34,21 +32,26 @@ namespace LayerTestApp.Payroll.DAL.Tests
         [SetUp]
         public void Setup()
         {
-            _logger = new SerilogLoggerFactory(Log.Logger).CreateLogger<PayGradeRepository>();
+            var services = new ServiceCollection();
+            IConfiguration Configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
 
-            string[] args = Array.Empty<string>();
-            LTAPayrollDbContextFactory ltaPayrollContextFactory = new();
-            _ltaPayrollDbContext = ltaPayrollContextFactory.CreateDbContext(args);
+            PayrollDALDependencyInjection.AddPayrollDALDI(services, Configuration);
+            var serviceProvider = services.BuildServiceProvider();
+            LTAPayrollDbContext LtaPayrollDbContext = (LTAPayrollDbContext)serviceProvider.GetServices(typeof(LTAPayrollDbContext)).First();
 
-            //_payGradeRepository = new PayGradeRepository<PayGrade>(_logger, _ltaPayrollDbContext);
-            _payGradeRepository = new PayGradeRepository(_logger, _ltaPayrollDbContext);
+            var _logger = new SerilogLoggerFactory(Log.Logger).CreateLogger<PayGradeRepository>();
+    
+            _payGradeRepository = new PayGradeRepository(_logger, LtaPayrollDbContext);
         }
 
         [Test, Order(1)]
         public void GetAllPayGradesAsync()
         {
             Log.Information("Starting GetAllPayGradesAsync - Test.");
-            //Expression<Func<PayGrade, bool>> predicate = x => x.IsActive;
+
             var payGrades = Task.Run(() => _payGradeRepository.GetAllAsync()).Result;
             try
             {
@@ -87,7 +90,6 @@ namespace LayerTestApp.Payroll.DAL.Tests
             {
                 Assert.Multiple(() =>
                 {
-                    //Assert.That(payGrade.PayGradeId, Is.Not.Null);
                     Assert.That(payGrade.PayGradeId, Is.EqualTo(1));
                     Assert.That(payGrade.PayGradeName, Is.EqualTo("Meister"));
                     Assert.That(payGrade.IsActive, Is.True);
@@ -131,7 +133,6 @@ namespace LayerTestApp.Payroll.DAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(payGrade, Is.Not.Null);
-                    //Assert.That(payGrade.PayGradeId, Is.Not.Null);
                     Assert.That(payGrade.PayGradeId, Is.EqualTo(5));
                     Assert.That(payGrade.PayGradeName, Is.EqualTo("Hilfsarbeiter"));
                     Assert.That(payGrade.IsActive, Is.False);
@@ -176,7 +177,6 @@ namespace LayerTestApp.Payroll.DAL.Tests
             {
                 Assert.Multiple(() =>
                 {
-                    //Assert.That(createdPayGrade.PayGradeId, Is.Not.Null);
                     Assert.That(createdPayGrade.PayGradeId, Is.EqualTo(7));
                     Assert.That(createdPayGrade.PayGradeName, Is.EqualTo("Neue Gehaltsklasse"));
                     Assert.That(createdPayGrade.IsActive, Is.True);
@@ -202,7 +202,6 @@ namespace LayerTestApp.Payroll.DAL.Tests
             {
                 Assert.Multiple(() =>
                 {
-                    //Assert.That(createdPayGrade.PayGradeId, Is.Not.Null);
                     Assert.That(createdPayGrade.PayGradeId, Is.EqualTo(8));
                     Assert.That(createdPayGrade.PayGradeName, Is.EqualTo("Inaktive Gehaltsklasse"));
                     Assert.That(createdPayGrade.IsActive, Is.False);
@@ -229,7 +228,6 @@ namespace LayerTestApp.Payroll.DAL.Tests
             {
                 Assert.Multiple(() =>
                 {
-                    //Assert.That(updatedPayGrade.PayGradeId, Is.Not.Null);
                     Assert.That(updatedPayGrade.PayGradeId, Is.EqualTo(7));
                     Assert.That(updatedPayGrade.PayGradeName, Is.EqualTo("Neue Gehaltsklasse (deaktiviert)"));
                     Assert.That(updatedPayGrade.IsActive, Is.False);
@@ -255,7 +253,6 @@ namespace LayerTestApp.Payroll.DAL.Tests
             {
                 Assert.Multiple(() =>
                 {
-                    //Assert.That(updatedPayGrade.PayGradeId, Is.Not.Null);
                     Assert.That(updatedPayGrade.PayGradeId, Is.EqualTo(5));
                     Assert.That(updatedPayGrade.PayGradeName, Is.EqualTo("Hilfsarbeiter"));
                     Assert.That(updatedPayGrade.IsActive, Is.True);

@@ -3,6 +3,7 @@ using LayerTestApp.Payroll.DAL.Data;
 using LayerTestApp.Payroll.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 
@@ -23,16 +24,17 @@ namespace LayerTestApp.Payroll.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeRootSetup()
         {
+            var services = new ServiceCollection();
+           
+            PayrollDALDependencyInjection.AddPayrollDALDI(services, Configuration);
+            var serviceProvider = services.BuildServiceProvider();
+            LtaPayrollDbContext = (LTAPayrollDbContext)serviceProvider.GetServices(typeof(LTAPayrollDbContext)).First();
 
             var serilog = SerilogConfigurationHelper.ConfigureForFile("DALTests", "Payroll.DAL.TestLog.txt");
-
             var loggerFactory = new LoggerFactory()
                 .AddSerilog(serilog);
 
             Logger = loggerFactory.CreateLogger("TestsLogger");
-
-            LTAPayrollDbContextFactory contextFactory = new();
-            LtaPayrollDbContext = contextFactory.CreateDbContext(null);
 
             Log.Information("------------------------------------------------------------------------------------------");
             Log.Information("Starting TestSetup DAL.");

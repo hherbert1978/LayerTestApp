@@ -8,8 +8,7 @@ namespace LayerTestApp.Payroll.BAL.Mapper
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<BALToEntityProfile>();
-                cfg.AddProfile<EntityToBALProfile>();
+                cfg.AddProfile<PayGradeProfile>();
             });
 
             var mapper = config.CreateMapper();

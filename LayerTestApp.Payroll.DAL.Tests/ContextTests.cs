@@ -6,7 +6,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
     [TestFixture, Order(1)]
     public class ContextTests
     {
-        private LTAPayrollDbContext _ltaPayrollDbContext;
+        private LTAPayrollDbContext LtaPayrollDbContext;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -29,14 +29,14 @@ namespace LayerTestApp.Payroll.DAL.Tests
         {
             string[] args = Array.Empty<string>();
             LTAPayrollDbContextFactory ltaPayrollContextFactory = new();
-            _ltaPayrollDbContext = ltaPayrollContextFactory.CreateDbContext(args);
+            LtaPayrollDbContext = ltaPayrollContextFactory.CreateDbContext(args);
         }
 
         [Test, Order(1)]
         public void GetAllPayGrades()
         {
             Log.Information("Starting GetAllPayGrades - Test.");
-            IEnumerable<PayGrade> payGrades = _ltaPayrollDbContext.PayGrades.ToList();
+            IEnumerable<PayGrade> payGrades = LtaPayrollDbContext.PayGrades.ToList();
             try
             {
                 Assert.That(payGrades.Count(), Is.EqualTo(5));
@@ -52,7 +52,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public void GetAllActivePayGrades()
         {
             Log.Information("Starting GetAllActivePayGrades - Test.");
-            IEnumerable<PayGrade> payGrades = _ltaPayrollDbContext.PayGrades.Where(x => x.IsActive).ToList();
+            IEnumerable<PayGrade> payGrades = LtaPayrollDbContext.PayGrades.Where(x => x.IsActive).ToList();
             try
             {
                 Assert.That(payGrades.Count(), Is.EqualTo(4));

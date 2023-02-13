@@ -11,18 +11,14 @@ namespace LayerTestApp.Common.Logging
             .Build();
 
         public static ILogger ConfigureForFile(string appName,
-                                            string fileName)
+                                               string fileName)
         {
 
             string logFileFolder = Configuration["SerilogLogging:LogFileFolder"];
             string logFile = Path.Combine(logFileFolder, fileName);
 
             Log.Logger = new LoggerConfiguration()
-#if DEBUG
                 .MinimumLevel.Debug()
-#else
-                .MinimumLevel.Information()
-#endif
                 .Enrich.FromLogContext()
                 .Enrich.WithProperty("Application", $"{appName}")
                 .WriteTo.Async(a => a.File(logFile))

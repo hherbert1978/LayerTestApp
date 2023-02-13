@@ -1,7 +1,6 @@
-﻿using Elasticsearch.Net;
-using LayerTestApp.Payroll.DAL.Contracts;
-using LayerTestApp.Payroll.DAL.Data;
+﻿using LayerTestApp.Payroll.DAL.Data;
 using LayerTestApp.Payroll.DAL.Models;
+using LayerTestApp.Payroll.DAL.RepositoryContracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
@@ -18,7 +17,7 @@ namespace LayerTestApp.Payroll.DAL.Repositories
         private readonly string _nameProperty;
         private readonly string _idProperty;
 
-        protected BaseRepository (ILogger<BaseRepository<T>> logger,
+        protected BaseRepository(ILogger logger,
                                   LTAPayrollDbContext context)
         {
             _logger = logger;
@@ -32,11 +31,11 @@ namespace LayerTestApp.Payroll.DAL.Repositories
 
         public async Task<List<T>> GetAllAsync(CancellationToken ct = default)
         {
-            
+
             var data = await _dbSet.ToListAsync(ct);
             return data;
         }
-        
+
         public async Task<List<T>> GetFilteredAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default)
         {
             var data = await _dbSet.Where(predicate).ToListAsync(ct);
@@ -60,7 +59,7 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             {
                 _logger.Log(LogLevel.Information, "Creating new {entity}.", _tType);
             }
-                   
+
             var newEntity = (await _dbSet.AddAsync(entity, ct)).Entity;
             await _context.SaveChangesAsync(ct);
 
@@ -73,15 +72,15 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             {
                 _logger.Log(LogLevel.Information, "A new {entity} was created.", _tType);
             }
-            
+
             return newEntity;
         }
-        
+
         public async Task<T> UpdateAsync(T entity, CancellationToken ct = default)
         {
             string entityIdValue = typeof(T).GetProperty(_idProperty).GetValue(entity).ToString();
             if (_nameProperty != null)
-            {                
+            {
                 string entityNameValue = typeof(T).GetProperty(_nameProperty).GetValue(entity).ToString();
                 _logger.Log(LogLevel.Information, "Updating {entity} with id: \"{entityIdValue}\" & name: \"{entityNameValue}\".", _tType, entityIdValue, entityNameValue);
             }
@@ -95,7 +94,7 @@ namespace LayerTestApp.Payroll.DAL.Repositories
 
             if (_nameProperty != null)
             {
-                string entityNameValue = typeof(T).GetProperty(_nameProperty).GetValue(entity).ToString();                
+                string entityNameValue = typeof(T).GetProperty(_nameProperty).GetValue(entity).ToString();
                 _logger.Log(LogLevel.Information, "{entity} with id: \"{entityIdValue}\" & name: \"{entityNameValue}\" was updated.", _tType, entityIdValue, entityNameValue);
             }
             else
@@ -118,7 +117,7 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             {
                 _logger.Log(LogLevel.Information, "Deleting {entity} with id: \"{entityIdValue}\".", _tType, entityIdValue);
             }
-            
+
             _context.Remove(entity);
             await _context.SaveChangesAsync(ct);
 
@@ -130,11 +129,11 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             else
             {
                 _logger.Log(LogLevel.Information, "{entity} with id: \"{entityIdValue}\" was deleted.", _tType, entityIdValue);
-            }          
+            }
 
             return true;
         }
 
-        public void Dispose() => GC.SuppressFinalize(this);       
+        public void Dispose() => GC.SuppressFinalize(this);
     }
 }

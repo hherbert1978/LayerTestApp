@@ -8,8 +8,6 @@
 
         public bool IsActive { get; set; } = true;
 
-        public bool IsDeleting { get; set; } = false;
-
         public PayGradeBAL() { }
 
         public PayGradeBAL(int payGradeId)

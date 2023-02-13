@@ -1,15 +1,10 @@
 ﻿using LayerTestApp.Payroll.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LayerTestApp.Payroll.DAL.Configuration
 {
-    public  class BaseModelConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseModel
+    public class BaseModelConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseModel
     {
         public virtual void Configure(EntityTypeBuilder<T> entity)
         {

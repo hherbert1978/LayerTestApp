@@ -30,25 +30,25 @@ namespace LayerTestApp.Payroll.DAL.Configuration
 
             #region "DefaultData"
 
-            //entity.HasData(new PayGradeDAL
+            //entity.HasData(new PayGrade
             //{
             //    PayGradeId = 1,
             //    PayGradeName = "Meister"
             //});
 
-            //entity.HasData(new PayGradeDAL
+            //entity.HasData(new PayGrade
             //{
             //    PayGradeId = 2,
             //    PayGradeName = "Geselle"
             //});
 
-            //entity.HasData(new PayGradeDAL
+            //entity.HasData(new PayGrade
             //{
             //    PayGradeId = 3,
             //    PayGradeName = "Hilfsarbeiter"
             //});
 
-            //entity.HasData(new PayGradeDAL
+            //entity.HasData(new PayGrade
             //{
             //    PayGradeId = 4,
             //    PayGradeName = "Feldarbeiter"

@@ -20,6 +20,7 @@ namespace LayerTestApp.Payroll.DAL.Data
                     configuration.GetValue<string>("Database:ConnectionStrings:LTAPayrollDBConnection"),
                     b =>
                     {
+
                         b.MigrationsHistoryTable("__Payroll_Migrations", schema: schema);
                     }
                 );

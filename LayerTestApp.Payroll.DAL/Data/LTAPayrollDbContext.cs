@@ -1,5 +1,4 @@
-﻿using LayerTestApp.Payroll.DAL.Configuration;
-using LayerTestApp.Payroll.DAL.Models;
+﻿using LayerTestApp.Payroll.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -19,7 +18,7 @@ namespace LayerTestApp.Payroll.DAL.Data
                .AddJsonFile("appsettings.json")
                .Build();
 
-            var schema = configuration.GetValue<string>("Database:DefaultSchemas:LTAPayrollSchema");
+            var schema = configuration["Database:DefaultSchemas:LTAPayrollSchema"];
 
             modelBuilder.HasDefaultSchema(schema);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -53,9 +52,7 @@ namespace LayerTestApp.Payroll.DAL.Data
                         entry.State = EntityState.Modified;
                         break;
                 }
-
             }
-
             return base.SaveChanges();
         }
 
@@ -83,13 +80,12 @@ namespace LayerTestApp.Payroll.DAL.Data
                         entry.Entity.LastUpdatedAt = DateTime.UtcNow;
                         break;
                     case EntityState.Deleted:
-                        entry.Entity.DeletedAt= DateTime.UtcNow;
+                        entry.Entity.DeletedAt = DateTime.UtcNow;
                         entry.State = EntityState.Modified;
                         break;
                 }
 
             }
-
             return await base.SaveChangesAsync(cancellationToken);
         }
 
