@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LayerTestApp.Common\LayerTestApp.Common.csproj" />
     <ProjectReference Include="..\LayerTestApp.Payroll.DAL\LayerTestApp.Payroll.DAL.csproj" />
   </ItemGroup>
 

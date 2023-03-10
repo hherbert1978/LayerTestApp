@@ -11,50 +11,31 @@ namespace LayerTestApp.Payroll.DAL.Tests
 {
 
     [SetUpFixture]
-    public class RootFixtureSetup
+    public class RootFixtureSetup : BaseTestClass
     {
-        private readonly IConfiguration Configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .Build();
-
-        public LTAPayrollDbContext LtaPayrollDbContext;
-        public Microsoft.Extensions.Logging.ILogger Logger;
-
         [OneTimeSetUp]
         public void OneTimeRootSetup()
         {
-            var services = new ServiceCollection();
-           
-            PayrollDALDependencyInjection.AddPayrollDALDI(services, Configuration);
-            var serviceProvider = services.BuildServiceProvider();
-            LtaPayrollDbContext = (LTAPayrollDbContext)serviceProvider.GetServices(typeof(LTAPayrollDbContext)).First();
-
-            var serilog = SerilogConfigurationHelper.ConfigureForFile("DALTests", "Payroll.DAL.TestLog.txt");
-            var loggerFactory = new LoggerFactory()
-                .AddSerilog(serilog);
-
-            Logger = loggerFactory.CreateLogger("TestsLogger");
-
-            Log.Information("------------------------------------------------------------------------------------------");
-            Log.Information("Starting TestSetup DAL.");
-            Log.Information("------------------------------------------------------------------------------------------\r\n");
-
-            // First delete Test-Schema
-            string dbSchema = Configuration.GetValue<string>("Database:DefaultSchemas:LTAPayrollSchema");
-            LtaPayrollDbContext.Database.ExecuteSqlRaw($"DROP SCHEMA IF EXISTS {dbSchema} CASCADE");
-            Log.Information($"Database schema \"{dbSchema}\" deleted.");
+            Logger.LogInformation("------------------------------------------------------------------------------------------");
+            Logger.LogInformation("Starting TestSetup DAL.");
+            Logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
 
             // Create new Test-Schema
             LtaPayrollDbContext.Database.EnsureCreated();
             CreateTestData();
-            Log.Information($"Database schema \"{dbSchema}\" created. \r\n");
+            Logger.LogInformation($"Database schema \"{DefaultSchema}\" created. \r\n");
         }
 
         [OneTimeTearDown]
         public void OneTimeRootTearDown()
         {
+            // Delete Test-Schema
+            LtaPayrollDbContext.Database.ExecuteSqlRaw($"DROP SCHEMA IF EXISTS {DefaultSchema} CASCADE");
+            Logger.LogInformation($"Database schema \"{DefaultSchema}\" deleted.");
 
+            Logger.LogInformation("------------------------------------------------------------------------------------------");
+            Logger.LogInformation("Finishing TestSetup DAL.");
+            Logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
         }
 
         private void CreateTestData()

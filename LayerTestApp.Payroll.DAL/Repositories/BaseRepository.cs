@@ -18,7 +18,7 @@ namespace LayerTestApp.Payroll.DAL.Repositories
         private readonly string _idProperty;
 
         protected BaseRepository(ILogger logger,
-                                  LTAPayrollDbContext context)
+                                 LTAPayrollDbContext context)
         {
             _logger = logger;
             _context = context;

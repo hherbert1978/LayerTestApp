@@ -25,12 +25,13 @@ namespace LayerTestApp.Payroll.BAL.Services
             _logger = logger;
         }
 
-        public async Task<List<ViewPayGradeDTO>> GetAllAsync()
+        public async Task<List<ViewPayGradeDTO>> GetAllAsync(CancellationToken ct = default)
         {
-            var payGrades = await _payGradeRepository.GetAllAsync();
+            var payGrades = await _payGradeRepository.GetAllAsync(ct);
             var payGradeBALs = _mapper.Map<List<PayGradeBAL>>(payGrades);
+            var viewPayGradeDTO = _mapper.Map<List<ViewPayGradeDTO>>(payGradeBALs);
 
-            return null;
+            return viewPayGradeDTO;
         }
 
         public async Task<ViewPayGradeDTO> CreateAsync(CreatePayGradeDTO createPayGradeDTO)

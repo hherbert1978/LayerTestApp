@@ -9,7 +9,7 @@ namespace LayerTestApp.Payroll.BAL.ServiceContracts
 {
     public interface IPayGradeService
     {
-        Task<List<ViewPayGradeDTO>> GetAllAsync();
+        Task<List<ViewPayGradeDTO>> GetAllAsync(CancellationToken ct = default);
 
         Task<ViewPayGradeDTO> CreateAsync(CreatePayGradeDTO createPayGradeDTO);
     }

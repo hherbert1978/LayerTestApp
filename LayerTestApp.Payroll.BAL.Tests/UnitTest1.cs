@@ -7,10 +7,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace LayerTestApp.Payroll.BAL.Tests
 {
-    public class Tests
-    {
-        private PayGradeService payGradeService;
-        
+    public class Tests : BaseTestClass
+    {        
         [SetUp]
         public void Setup()
         {
@@ -22,7 +20,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
         public void Test1()
         {
 
-            var pay = Task.Run(() => payGradeService.GetAllAsync()).Result;
+            var pay = Task.Run(() => PayGradeService.GetAllAsync()).Result;
         }
     }
 }

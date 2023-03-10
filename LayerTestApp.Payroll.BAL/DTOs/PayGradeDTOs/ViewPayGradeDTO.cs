@@ -2,5 +2,10 @@
 {
     public class ViewPayGradeDTO
     {
+        public int PayGradeId { get; set; }
+
+        public string PayGradeName { get; set; }
+
+        public bool IsActive { get; set; } 
     }
 }

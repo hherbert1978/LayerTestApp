@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LayerTestApp.Payroll.BAL.DTOs.PayGradeDTOs;
 using LayerTestApp.Payroll.BAL.Entities;
 using LayerTestApp.Payroll.DAL.Models;
 using System;
@@ -15,6 +16,7 @@ namespace LayerTestApp.Payroll.BAL.Mapper
         {
             CreateMap<PayGrade, PayGradeBAL>();
             CreateMap<PayGradeBAL, PayGrade>();
+            CreateMap<PayGradeBAL, ViewPayGradeDTO>();
             //.ForMember(m => m.IsDeleted, opt => opt.MapFrom(src => src.IsDeleting));
         }
     }
