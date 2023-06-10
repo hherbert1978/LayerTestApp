@@ -1,23 +1,23 @@
 ﻿using AutoMapper;
-using LayerTestApp.Payroll.BAL.DTOs.PayGradeDTOs;
-using LayerTestApp.Payroll.BAL.Entities;
-using LayerTestApp.Payroll.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LayerTestApp.Payroll.BAL.Models.DTOs.PayGradeDTOs;
+using LayerTestApp.Payroll.DAL.Entities;
 
 namespace LayerTestApp.Payroll.BAL.Mapper
 {
     public class PayGradeProfile : Profile
     {
-        public PayGradeProfile() 
+        public PayGradeProfile()
         {
-            CreateMap<PayGrade, PayGradeBAL>();
-            CreateMap<PayGradeBAL, PayGrade>();
-            CreateMap<PayGradeBAL, ViewPayGradeDTO>();
-            //.ForMember(m => m.IsDeleted, opt => opt.MapFrom(src => src.IsDeleting));
+            //// DAL (PayGrade) to BAL (PayGradeBAL) and reverse   
+            //CreateMap<PayGrade, PayGradeBAL>();
+
+            //CreateMap<PayGradeBAL, PayGrade>();
+
+            // BAL to DTO and reverse    
+            CreateMap<CreatePayGradeDTO, PayGrade>()
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+
+            CreateMap<PayGrade, PayGradeResponseDTO>();
         }
     }
 }

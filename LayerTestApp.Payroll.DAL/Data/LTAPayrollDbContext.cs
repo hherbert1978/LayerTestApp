@@ -1,4 +1,4 @@
-﻿using LayerTestApp.Payroll.DAL.Models;
+﻿using LayerTestApp.Payroll.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -56,7 +56,7 @@ namespace LayerTestApp.Payroll.DAL.Data
             return base.SaveChanges();
         }
 
-        public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+        public new async Task<int> SaveChangesAsync(CancellationToken ct = new())
         {
             foreach (var entry in ChangeTracker.Entries<BaseModel>().ToList())
             {
@@ -86,7 +86,7 @@ namespace LayerTestApp.Payroll.DAL.Data
                 }
 
             }
-            return await base.SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(ct);
         }
 
     }

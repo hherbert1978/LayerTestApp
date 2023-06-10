@@ -1,4 +1,4 @@
-﻿namespace LayerTestApp.Payroll.DAL.Models
+﻿namespace LayerTestApp.Payroll.DAL.Entities
 {
     public abstract class AuditModel
     {

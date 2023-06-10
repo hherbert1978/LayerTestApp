@@ -1,15 +1,8 @@
 ﻿using LayerTestApp.Payroll.BAL.Mapper;
 using LayerTestApp.Payroll.BAL.ServiceContracts;
 using LayerTestApp.Payroll.BAL.Services;
-using LayerTestApp.Payroll.DAL.Repositories;
-using LayerTestApp.Payroll.DAL.RepositoryContracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LayerTestApp.Payroll.BAL
 {

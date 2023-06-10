@@ -1,30 +1,47 @@
-﻿using LayerTestApp.Common.Logging;
-using LayerTestApp.Payroll.DAL;
-using LayerTestApp.Payroll.DAL.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using LayerTestApp.Payroll.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Serilog;
+using Microsoft.VisualBasic;
 
 namespace LayerTestApp.Payroll.BAL.Tests
 {
     [SetUpFixture]
-    public class RootFixtureSetup
+    public class RootFixtureSetup : BaseTestClass
     {
-        private readonly IConfiguration Configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .Build();
-
         [OneTimeSetUp]
         public void OneTimeRootSetup()
-        {            
-            var services = new ServiceCollection();
+        {
+            Logger.LogInformation("------------------------------------------------------------------------------------------");
+            Logger.LogInformation("Starting TestSetup BAL.");
+            Logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
 
-            services.AddPayrollDALDI(Configuration)
-                    .AddPayrollBALDI(Configuration);
+            // Create new Test-Schema
+            LtaPayrollDbContext.Database.EnsureCreated();
+            CreateTestData();
+            Logger.LogInformation("Database schema \"{DefaultSchema}\" created. \r\n", DefaultSchema);
+        }
 
-            var provider = services.BuildServiceProvider();
+        [OneTimeTearDown]
+        public void OneTimeRootTearDown()
+        {
+            // Delete Test-Schema
+            LtaPayrollDbContext.Database.ExecuteSqlRaw($"DROP SCHEMA IF EXISTS {DefaultSchema} CASCADE");
+            Logger.LogInformation("Database schema \"{DefaultSchema}\" deleted.", DefaultSchema);
+
+            Logger.LogInformation("------------------------------------------------------------------------------------------");
+            Logger.LogInformation("Finishing TestSetup BAL.");
+            Logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
+        }
+
+        private void CreateTestData()
+        {
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Meister" });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Geselle" });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Lehrling" });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Feldarbeiter" });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Hilfsarbeiter", IsActive = false });
+            LtaPayrollDbContext.PayGrades.Add(new PayGrade { PayGradeName = "Aushilfe", IsActive = false, IsDeleted = true, DeletedAt = DateAndTime.DateAdd(DateInterval.Second, 30, DateTime.UtcNow) });
+            LtaPayrollDbContext.SaveChanges();
         }
     }
 }

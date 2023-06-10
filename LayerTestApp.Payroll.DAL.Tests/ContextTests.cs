@@ -1,9 +1,8 @@
-using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Models;
+using LayerTestApp.Payroll.DAL.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace LayerTestApp.Payroll.DAL.Tests
-{  
+{
     [TestFixture, Order(1)]
     public class ContextTests : BaseTestClass
     {

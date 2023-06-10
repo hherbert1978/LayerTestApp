@@ -1,5 +1,5 @@
 ﻿using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Models;
+using LayerTestApp.Payroll.DAL.Entities;
 using LayerTestApp.Payroll.DAL.RepositoryContracts;
 using Microsoft.Extensions.Logging;
 

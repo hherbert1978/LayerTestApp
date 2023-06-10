@@ -1,17 +1,16 @@
-﻿using LayerTestApp.Common.Logging;
-using LayerTestApp.Payroll.DAL.Data;
+﻿using LayerTestApp.Payroll.DAL.Data;
 using LayerTestApp.Payroll.DAL.Repositories;
 using LayerTestApp.Payroll.DAL.RepositoryContracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog.Filters;
-using Serilog;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Filters;
 
 namespace LayerTestApp.Payroll.DAL
 {
-    public static class PayrollDALDependencyInjection           
+    public static class PayrollDALDependencyInjection
     {
         public static IServiceCollection AddPayrollDALDI(this IServiceCollection services, IConfiguration configuration)
         {
@@ -33,7 +32,7 @@ namespace LayerTestApp.Payroll.DAL
         private static void AddLTAPayrollRepositories(this IServiceCollection services)
         {
             services.AddScoped<IPayGradeRepository, PayGradeRepository>();
-            
+
         }
 
         private static void AddLogging(this IServiceCollection services, IConfiguration configuration)

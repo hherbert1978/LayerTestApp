@@ -1,4 +1,4 @@
-﻿namespace LayerTestApp.Payroll.DAL.Models
+﻿namespace LayerTestApp.Payroll.DAL.Entities
 {
     public abstract class BaseModel : AuditModel
     {
@@ -12,7 +12,7 @@
         private bool? _isDeleted;
         public bool IsDeleted
         {
-            get => _isDeleted ?? true;
+            get => _isDeleted ?? false;
             set => _isDeleted = value;
         }
 

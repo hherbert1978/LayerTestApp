@@ -1,4 +1,4 @@
-﻿using LayerTestApp.Payroll.DAL.Models;
+﻿using LayerTestApp.Payroll.DAL.Entities;
 
 namespace LayerTestApp.Payroll.DAL.RepositoryContracts
 {

@@ -8,15 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Entities\**" />
+    <EmbeddedResource Remove="Models\Entities\**" />
+    <None Remove="Models\Entities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Mapper\Mapping.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LayerTestApp.Common\LayerTestApp.Common.csproj" />
     <ProjectReference Include="..\LayerTestApp.Payroll.DAL\LayerTestApp.Payroll.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>

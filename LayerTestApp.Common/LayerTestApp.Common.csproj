@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-    <!--<Nullable>enable</Nullable>-->
+    <Nullable>enable</Nullable>
+    <!--<Nullable>disable</Nullable>-->    
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Logging\ISerilogLogger.cs" />
-    <Compile Remove="Logging\LoggingLevels.cs" />
-    <Compile Remove="Logging\SerilogLogger.cs" />
+    <Compile Remove="Logging\**" />
+    <EmbeddedResource Remove="Logging\**" />
+    <None Remove="Logging\**" />
   </ItemGroup>
 
   <ItemGroup>

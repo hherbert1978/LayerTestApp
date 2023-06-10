@@ -1,13 +1,9 @@
-﻿using LayerTestApp.Payroll.DAL;
+﻿using LayerTestApp.Payroll.BAL.ServiceContracts;
+using LayerTestApp.Payroll.DAL;
 using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog.Extensions.Logging;
-using Serilog;
-using LayerTestApp.Payroll.DAL.RepositoryContracts;
-using LayerTestApp.Payroll.BAL.ServiceContracts;
 
 namespace LayerTestApp.Payroll.BAL.Tests
 {
@@ -21,7 +17,9 @@ namespace LayerTestApp.Payroll.BAL.Tests
 
         public IPayGradeService PayGradeService;
 
-        public BaseTestClass() 
+        public string DefaultSchema;
+
+        public BaseTestClass()
         {
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -35,6 +33,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
 
             var serviceProvider = services.BuildServiceProvider();
 
+            DefaultSchema = Configuration["Database:DefaultSchemas:LTAPayrollSchema"];
             LtaPayrollDbContext = (LTAPayrollDbContext)serviceProvider.GetServices(typeof(LTAPayrollDbContext)).First();
             Logger = ((ILoggerFactory)serviceProvider.GetServices(typeof(ILoggerFactory)).First()).CreateLogger("TestLogger");
 

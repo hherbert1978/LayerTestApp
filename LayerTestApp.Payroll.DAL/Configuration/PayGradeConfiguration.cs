@@ -1,4 +1,4 @@
-﻿using LayerTestApp.Payroll.DAL.Models;
+﻿using LayerTestApp.Payroll.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

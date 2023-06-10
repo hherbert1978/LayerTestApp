@@ -1,9 +1,5 @@
-﻿using LayerTestApp.Common.Logging;
-using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Models;
+﻿using LayerTestApp.Payroll.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 
@@ -23,7 +19,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
             // Create new Test-Schema
             LtaPayrollDbContext.Database.EnsureCreated();
             CreateTestData();
-            Logger.LogInformation($"Database schema \"{DefaultSchema}\" created. \r\n");
+            Logger.LogInformation("Database schema \"{DefaultSchema}\" created. \r\n", DefaultSchema);
         }
 
         [OneTimeTearDown]
@@ -31,7 +27,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
         {
             // Delete Test-Schema
             LtaPayrollDbContext.Database.ExecuteSqlRaw($"DROP SCHEMA IF EXISTS {DefaultSchema} CASCADE");
-            Logger.LogInformation($"Database schema \"{DefaultSchema}\" deleted.");
+            Logger.LogInformation("Database schema \"{DefaultSchema}\" deleted.", DefaultSchema);
 
             Logger.LogInformation("------------------------------------------------------------------------------------------");
             Logger.LogInformation("Finishing TestSetup DAL.");

@@ -1,11 +1,5 @@
-using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Models;
-using LayerTestApp.Payroll.DAL.Repositories;
-using LayerTestApp.Payroll.DAL.RepositoryContracts;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using LayerTestApp.Payroll.DAL.Entities;
 using Microsoft.Extensions.Logging;
-using Serilog.Extensions.Logging;
 
 namespace LayerTestApp.Payroll.DAL.Tests
 {
@@ -37,11 +31,12 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public void GetAllPayGradesAsync()
         {
             Logger.LogInformation("Starting GetAllPayGradesAsync - Test.");
-
-            var payGrades = Task.Run(() => PayGradeRepository.GetAllAsync()).Result;
+                        
             try
             {
-                Assert.That(payGrades, Has.Count.EqualTo(5));
+                var payGrades = Task.Run(() => PayGradeRepository.GetAllAsync()).Result;
+
+                Assert.That(payGrades.Count(), Is.EqualTo(5));
                 Logger.LogInformation("PayGradeRepository Test - GetAllPayGradesAsync - Test finished successfully. \r\n");
             }
             catch (Exception ex)
@@ -54,10 +49,12 @@ namespace LayerTestApp.Payroll.DAL.Tests
         public void GetAllActivePayGradesAsync()
         {
             Logger.LogInformation("Starting GetAllActivePayGradesAsync - Test.");
-            var payGrades = Task.Run(() => PayGradeRepository.GetFilteredAsync(x => x.IsActive)).Result;
+            
             try
             {
-                Assert.That(payGrades, Has.Count.EqualTo(4));
+                var payGrades = Task.Run(() => PayGradeRepository.GetFilteredAsync(x => x.IsActive)).Result;
+
+                Assert.That(payGrades.Count(), Is.EqualTo(4));
                 Logger.LogInformation("PayGradeRepository Test - GetAllActivePayGradesAsync - Test finished successfully. \r\n");
             }
             catch (Exception ex)
@@ -67,13 +64,32 @@ namespace LayerTestApp.Payroll.DAL.Tests
         }
 
         [Test, Order(3)]
-        public void GetByIdActiveExistingItemAsync()
+        public void GetAllDeletedPayGradesAsync()
         {
-            Logger.LogInformation("Starting GetByIdActiveExistingItemAsync - Test.");
-            var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 1)).Result;
+            Logger.LogInformation("Starting GetAllDeletedPayGradesAsync - Test.");
 
             try
             {
+                var payGrades = Task.Run(() => PayGradeRepository.GetAllDeletedAsync()).Result;
+
+                Assert.That(payGrades.Count(), Is.EqualTo(1));
+                Logger.LogInformation("PayGradeRepository Test - GetAllDeletedPayGradesAsync - Test finished successfully. \r\n");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogInformation(ex, "PayGradeRepository Test - GetAllDeletedPayGradesAsync - Test finished with error. \r\n");
+            }
+        }
+
+        [Test, Order(4)]
+        public void GetByIdActiveExistingItemAsync()
+        {
+            Logger.LogInformation("Starting GetByIdActiveExistingItemAsync - Test.");
+            
+            try
+            {
+                var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 1)).Result;
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(payGrade.PayGradeId, Is.EqualTo(1));
@@ -88,14 +104,15 @@ namespace LayerTestApp.Payroll.DAL.Tests
             }
         }
 
-        [Test, Order(4)]
+        [Test, Order(5)]
         public void GetInactiveItemFilterForActiveAsync()
         {
             Logger.LogInformation("Starting GetByIdInactiveExistingItemFilterForActiveAsync - Test.");
-            var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 5 && x.IsActive)).Result;
-
+           
             try
             {
+                var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 5 && x.IsActive)).Result;
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(payGrade, Is.Null);
@@ -108,14 +125,15 @@ namespace LayerTestApp.Payroll.DAL.Tests
             }
         }
 
-        [Test, Order(5)]
+        [Test, Order(6)]
         public void GetByIdInactiveExistingItemNoFilterAsync()
         {
             Logger.LogInformation("Starting GetByIdInactiveExistingItemNoFilterAsync - Test.");
-            var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 5)).Result;
-
+           
             try
             {
+                var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 5)).Result;
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(payGrade, Is.Not.Null);
@@ -131,14 +149,15 @@ namespace LayerTestApp.Payroll.DAL.Tests
             }
         }
 
-        [Test, Order(6)]
+        [Test, Order(7)]
         public void GetByDeletedIdAsync()
         {
             Logger.LogInformation("Starting GetByDeletedIdAsync - Test.");
-            var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 6)).Result;
-
+            
             try
             {
+                var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 6)).Result;
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(payGrade, Is.Null);
@@ -151,16 +170,17 @@ namespace LayerTestApp.Payroll.DAL.Tests
             }
         }
 
-        [Test, Order(7)]
+        [Test, Order(8)]
         public void CreateNewPayGradeWithDefaultDataAsync()
         {
             Logger.LogInformation("Starting CreateNewPayGradeWithDefaultDataAsync - Test.");
 
             var payGrade = new PayGrade { PayGradeName = "Neue Gehaltsklasse" };
-            var createdPayGrade = Task.Run(() => PayGradeRepository.AddAsync(payGrade)).Result;
-
+           
             try
             {
+                var createdPayGrade = Task.Run(() => PayGradeRepository.AddAsync(payGrade)).Result;
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(createdPayGrade.PayGradeId, Is.EqualTo(7));
@@ -175,17 +195,17 @@ namespace LayerTestApp.Payroll.DAL.Tests
             }
         }
 
-        [Test, Order(8)]
+        [Test, Order(9)]
         public void CreateNewPayGradeWithEnrichedDataAsync()
         {
             Logger.LogInformation("Starting CreateNewPayGradeWithEnrichedDataAsync - Test.");
 
             var payGrade = new PayGrade { PayGradeName = "Inaktive Gehaltsklasse", IsActive = false };
 
-            var createdPayGrade = Task.Run(() => PayGradeRepository.AddAsync(payGrade)).Result;
-
             try
             {
+                var createdPayGrade = Task.Run(() => PayGradeRepository.AddAsync(payGrade)).Result;
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(createdPayGrade.PayGradeId, Is.EqualTo(8));
@@ -201,17 +221,18 @@ namespace LayerTestApp.Payroll.DAL.Tests
             }
         }
 
-        [Test, Order(9)]
+        [Test, Order(10)]
         public void UpdatePayGradeWithExistingIdAsync()
         {
             Logger.LogInformation("Starting UpdatePayGradeWithExistingIdAsync - Test.");
             var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 7)).Result;
             payGrade.PayGradeName = "Neue Gehaltsklasse (deaktiviert)";
             payGrade.IsActive = false;
-            var updatedPayGrade = Task.Run(() => PayGradeRepository.UpdateAsync(payGrade)).Result;
-
+            
             try
             {
+                var updatedPayGrade = Task.Run(() => PayGradeRepository.UpdateAsync(payGrade)).Result;
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(updatedPayGrade.PayGradeId, Is.EqualTo(7));
@@ -227,16 +248,17 @@ namespace LayerTestApp.Payroll.DAL.Tests
             }
         }
 
-        [Test, Order(10)]
+        [Test, Order(11)]
         public void UpdateInactivePayGradeAsync()
         {
             Logger.LogInformation("Starting UpdateInactivePayGradeAsync - Test.");
             var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 5)).Result;
             payGrade.IsActive = true;
-            var updatedPayGrade = Task.Run(() => PayGradeRepository.UpdateAsync(payGrade)).Result;
-
+            
             try
             {
+                var updatedPayGrade = Task.Run(() => PayGradeRepository.UpdateAsync(payGrade)).Result;
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(updatedPayGrade.PayGradeId, Is.EqualTo(5));
@@ -252,20 +274,20 @@ namespace LayerTestApp.Payroll.DAL.Tests
             }
         }
 
-        [Test, Order(11)]
+        [Test, Order(12)]
         public void DeletePayGradeWithExistingIdAsync()
         {
             Logger.LogInformation("Starting UpdatePayGradeWithExistingIdAsync - Test.");
 
-            var payGradeCountBefore = Task.Run(() => PayGradeRepository.GetAllAsync()).Result.Count;
+            var payGradeCountBefore = Task.Run(() => PayGradeRepository.GetAllAsync()).Result.Count();
 
             var payGrade = Task.Run(() => PayGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == 4)).Result;
             var isDeleted = Task.Run(() => PayGradeRepository.DeleteAsync(payGrade)).Result;
 
-            var payGradeCountAfter = Task.Run(() => PayGradeRepository.GetAllAsync()).Result.Count;
-
             try
             {
+                var payGradeCountAfter = Task.Run(() => PayGradeRepository.GetAllAsync()).Result.Count();
+
                 Assert.Multiple(() =>
                 {
                     Assert.That(isDeleted, Is.True);

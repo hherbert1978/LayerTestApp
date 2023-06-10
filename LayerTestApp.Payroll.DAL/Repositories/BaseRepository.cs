@@ -1,5 +1,5 @@
 ﻿using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Models;
+using LayerTestApp.Payroll.DAL.Entities;
 using LayerTestApp.Payroll.DAL.RepositoryContracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -29,14 +29,13 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             _idProperty = typeof(T).GetProperties().Where(x => x.Name == (_tType + "Id")).Select(x => x.Name).FirstOrDefault();
         }
 
-        public async Task<List<T>> GetAllAsync(CancellationToken ct = default)
+        public async Task<IEnumerable<T>> GetAllAsync(CancellationToken ct = default)
         {
-
             var data = await _dbSet.ToListAsync(ct);
             return data;
         }
 
-        public async Task<List<T>> GetFilteredAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default)
+        public async Task<IEnumerable<T>> GetFilteredAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default)
         {
             var data = await _dbSet.Where(predicate).ToListAsync(ct);
             return data;
@@ -46,6 +45,12 @@ namespace LayerTestApp.Payroll.DAL.Repositories
         {
             var data = await _dbSet.Where(predicate).ToListAsync(ct);
             return data.FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<T>> GetAllDeletedAsync(CancellationToken ct = default)
+        {
+            var data = await _dbSet.IgnoreQueryFilters().Where(d => d.IsDeleted).ToListAsync(ct);
+            return data;
         }
 
         public async Task<T> AddAsync(T entity, CancellationToken ct = default)

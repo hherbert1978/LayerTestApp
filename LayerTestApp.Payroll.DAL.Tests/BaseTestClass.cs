@@ -1,5 +1,4 @@
 ﻿using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Repositories;
 using LayerTestApp.Payroll.DAL.RepositoryContracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +18,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
 
         public string DefaultSchema;
 
-        public BaseTestClass() 
+        public BaseTestClass()
         {
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -33,7 +32,7 @@ namespace LayerTestApp.Payroll.DAL.Tests
 
             DefaultSchema = Configuration["Database:DefaultSchemas:LTAPayrollSchema"];
             LtaPayrollDbContext = (LTAPayrollDbContext)serviceProvider.GetServices(typeof(LTAPayrollDbContext)).First();
-                        
+
             Logger = ((ILoggerFactory)serviceProvider.GetServices(typeof(ILoggerFactory)).First()).CreateLogger("TestLogger");
 
             PayGradeRepository = (IPayGradeRepository)serviceProvider.GetServices(typeof(IPayGradeRepository)).First();
