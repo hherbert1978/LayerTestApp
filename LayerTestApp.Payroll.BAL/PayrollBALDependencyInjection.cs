@@ -8,7 +8,7 @@ namespace LayerTestApp.Payroll.BAL
 {
     public static class PayrollBALDependencyInjection
     {
-        public static IServiceCollection AddPayrollBALDI(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddPayrollBALDI(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(IAutoMapperMarker));
             services.AddServices();

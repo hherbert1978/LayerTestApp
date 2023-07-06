@@ -39,6 +39,6 @@ namespace LayerTestApp.Payroll.BAL.Models.Validators.PayGradeValidators
 
             return !payGradeNameExists;
         }
-    
+
     }
 }

@@ -13,29 +13,45 @@ namespace LayerTestApp.Payroll.DAL.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var appFile = "appsettings";
+            switch (environmentName)
+            {
+                case "Test":
+                    appFile += ".test.json";
+                    break;
+                case "Development":
+                    appFile += ".dev.json";
+                    break;
+                case "Production":
+                    appFile += ".prod.json";
+                    break;
+            }
+
             IConfigurationRoot configuration = new ConfigurationBuilder()
                .SetBasePath(Directory.GetCurrentDirectory())
-               .AddJsonFile("appsettings.json")
+               .AddJsonFile(appFile)
                .Build();
 
             var schema = configuration["Database:DefaultSchemas:LTAPayrollSchema"];
 
             modelBuilder.HasDefaultSchema(schema);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public new int SaveChanges()
         {
-            foreach (var entry in ChangeTracker.Entries<BaseModel>().ToList())
-            {
-                switch (entry.State)
-                {
-
-                    case EntityState.Deleted:
-                        entry.Entity.IsDeleted = true;
-                        break;
-                }
-            }
+            //foreach (var entry in ChangeTracker.Entries<BaseModel>().ToList())
+            //{
+            //    switch (entry.State)
+            //    {
+            //        case EntityState.Deleted:
+            //            entry.Entity.IsDeleted = true;
+            //            break;
+            //    }
+            //}
 
             foreach (var entry in ChangeTracker.Entries<BaseModel>().ToList())
             {
@@ -48,6 +64,7 @@ namespace LayerTestApp.Payroll.DAL.Data
                         entry.Entity.LastUpdatedAt = DateTime.UtcNow;
                         break;
                     case EntityState.Deleted:
+                        entry.Entity.IsDeleted = true;
                         entry.Entity.DeletedAt = DateTime.UtcNow;
                         entry.State = EntityState.Modified;
                         break;
@@ -58,16 +75,15 @@ namespace LayerTestApp.Payroll.DAL.Data
 
         public new async Task<int> SaveChangesAsync(CancellationToken ct = new())
         {
-            foreach (var entry in ChangeTracker.Entries<BaseModel>().ToList())
-            {
-                switch (entry.State)
-                {
-
-                    case EntityState.Deleted:
-                        entry.Entity.IsDeleted = true;
-                        break;
-                }
-            }
+            //foreach (var entry in ChangeTracker.Entries<BaseModel>().ToList())
+            //{
+            //    switch (entry.State)
+            //    {
+            //        case EntityState.Deleted:
+            //            entry.Entity.IsDeleted = true;
+            //            break;
+            //    }
+            //}
 
             foreach (var entry in ChangeTracker.Entries<BaseModel>().ToList())
             {
@@ -80,6 +96,7 @@ namespace LayerTestApp.Payroll.DAL.Data
                         entry.Entity.LastUpdatedAt = DateTime.UtcNow;
                         break;
                     case EntityState.Deleted:
+                        entry.Entity.IsDeleted = true;
                         entry.Entity.DeletedAt = DateTime.UtcNow;
                         entry.State = EntityState.Modified;
                         break;

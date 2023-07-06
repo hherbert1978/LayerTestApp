@@ -10,17 +10,17 @@ namespace LayerTestApp.Payroll.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            Logger.LogInformation("------------------------------------------------------------------------------------------");
-            Logger.LogInformation("Starting ContextTests.");
-            Logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
+            _logger.LogInformation("------------------------------------------------------------------------------------------");
+            _logger.LogInformation("Starting ContextTests.");
+            _logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Logger.LogInformation("------------------------------------------------------------------------------------------");
-            Logger.LogInformation("Finishing ContextTests.");
-            Logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
+            _logger.LogInformation("------------------------------------------------------------------------------------------");
+            _logger.LogInformation("Finishing ContextTests.");
+            _logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
         }
 
         [SetUp]
@@ -31,32 +31,32 @@ namespace LayerTestApp.Payroll.DAL.Tests
         [Test, Order(1)]
         public void GetAllPayGrades()
         {
-            Logger.LogInformation("Starting GetAllPayGrades - Test.");
-            IEnumerable<PayGrade> payGrades = LtaPayrollDbContext.PayGrades.ToList();
+            _logger.LogInformation("Starting GetAllPayGrades - Test.");
+            IEnumerable<PayGrade> payGrades = _context.PayGrades.ToList();
             try
             {
                 Assert.That(payGrades.Count(), Is.EqualTo(5));
-                Logger.LogInformation("GetAllPayGrades - Test finished successfully. \r\n");
+                _logger.LogInformation("GetAllPayGrades - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "GetAllPayGrades - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "GetAllPayGrades - Test finished with error. \r\n");
             }
         }
 
         [Test, Order(2)]
         public void GetAllActivePayGrades()
         {
-            Logger.LogInformation("Starting GetAllActivePayGrades - Test.");
-            IEnumerable<PayGrade> payGrades = LtaPayrollDbContext.PayGrades.Where(x => x.IsActive).ToList();
+            _logger.LogInformation("Starting GetAllActivePayGrades - Test.");
+            IEnumerable<PayGrade> payGrades = _context.PayGrades.Where(x => x.IsActive).ToList();
             try
             {
                 Assert.That(payGrades.Count(), Is.EqualTo(4));
-                Logger.LogInformation("GetAllActivePayGrades - Test finished successfully. \r\n");
+                _logger.LogInformation("GetAllActivePayGrades - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "GetAllActivePayGrades - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "GetAllActivePayGrades - Test finished with error. \r\n");
             }
         }
     }

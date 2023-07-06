@@ -7,6 +7,6 @@ namespace LayerTestApp.Payroll.DAL.Repositories
 {
     public class PayGradeRepository : BaseRepository<PayGrade>, IPayGradeRepository
     {
-        public PayGradeRepository(ILogger logger, LTAPayrollDbContext context) : base(logger, context) { }
+        public PayGradeRepository(ILogger<PayGradeRepository> logger, LTAPayrollDbContext context) : base(logger, context) { }
     }
 }

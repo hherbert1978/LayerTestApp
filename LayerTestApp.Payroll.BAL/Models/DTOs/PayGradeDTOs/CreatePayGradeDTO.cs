@@ -7,6 +7,6 @@
         public CreatePayGradeDTO(string payGradeName)
         {
             PayGradeName = payGradeName;
-        }        
+        }
     }
 }

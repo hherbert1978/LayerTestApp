@@ -5,7 +5,7 @@
         public int PayGradeId { get; set; }
 
         public DeletePayGradeDTO(int payGradeId)
-        { 
+        {
             PayGradeId = payGradeId;
         }
     }

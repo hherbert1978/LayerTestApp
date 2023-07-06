@@ -5,16 +5,15 @@ using LayerTestApp.Payroll.BAL.ServiceContracts;
 using LayerTestApp.Payroll.DAL.Entities;
 using LayerTestApp.Payroll.DAL.RepositoryContracts;
 using Microsoft.Extensions.Logging;
-using System.Xml.Linq;
 
 namespace LayerTestApp.Payroll.BAL.Services
 {
     public class PayGradeService : IPayGradeService
     {
+        private readonly IPayGradeRepository _payGradeRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly IPayGradeRepository _payGradeRepository;
-
+        
         public PayGradeService(IPayGradeRepository payGradeRepository, IMapper mapper, ILogger logger)
         {
             _payGradeRepository = payGradeRepository;
@@ -46,8 +45,8 @@ namespace LayerTestApp.Payroll.BAL.Services
 
             if (payGrade == null)
             {
-                _logger.LogError("PayGradeService (GetByIdAsync) - ResourceNotFoundException: No Pay Grade with id = \"{id}\" was found.", id);
-                throw new ResourceNotFoundException($"No Pay Grade with id = \"{id}\" was found.");
+                _logger.LogError("PayGradeService (GetByIdAsync) - ResourceNotFoundException: No Pay Grade with id = '{id}' was found.", id);
+                throw new ResourceNotFoundException($"No Pay Grade with id = '{id}' was found.");
             }
 
             return _mapper.Map<PayGradeResponseDTO>(payGrade);
@@ -59,8 +58,8 @@ namespace LayerTestApp.Payroll.BAL.Services
 
             if (payGrade == null)
             {
-                _logger.LogError("PayGradeService (GetByNameAsync) - ResourceNotFoundException: No Pay Grade with name = \"{name}\" was found.", name);
-                throw new ResourceNotFoundException($"No Pay Grade with name = \"{name}\" was found.");
+                _logger.LogError("PayGradeService (GetByNameAsync) - ResourceNotFoundException: No Pay Grade with name = '{name}' was found.", name);
+                throw new ResourceNotFoundException($"No Pay Grade with name = '{name}' was found.");
             }
 
             return _mapper.Map<PayGradeResponseDTO>(payGrade);
@@ -78,8 +77,8 @@ namespace LayerTestApp.Payroll.BAL.Services
 
             if (payGrade == null)
             {
-                _logger.LogError("PayGradeService (GetIdByNameAsync) - ResourceNotFoundException: No Pay Grade with name = \"{name}\" was found.", name);
-                throw new ResourceNotFoundException($"No Pay Grade with name = \"{name}\" was found.");
+                _logger.LogError("PayGradeService (GetIdByNameAsync) - ResourceNotFoundException: No Pay Grade with name = '{name}' was found.", name);
+                throw new ResourceNotFoundException($"No Pay Grade with name = '{name}' was found.");
             }
 
             return payGrade.PayGradeId;
@@ -96,11 +95,11 @@ namespace LayerTestApp.Payroll.BAL.Services
         {
             var id = updatePayGradeDTO.PayGradeId;
             var payGrade = await _payGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == id, ct);
-            
+
             if (payGrade == null)
             {
-                _logger.LogError("PayGradeService (UpdateAsync) - ResourceNotFoundException: No Pay Grade with id = \"{id}\" was found.", id);
-                throw new ResourceNotFoundException($"No Pay Grade with id = \"{id}\" was found.");
+                _logger.LogError("PayGradeService (UpdateAsync) - ResourceNotFoundException: No Pay Grade with id = '{id}' was found.", id);
+                throw new ResourceNotFoundException($"No Pay Grade with id = '{id}' was found.");
             }
 
             payGrade.PayGradeName = updatePayGradeDTO.PayGradeName;
@@ -111,15 +110,15 @@ namespace LayerTestApp.Payroll.BAL.Services
             return _mapper.Map<PayGradeResponseDTO>(updatedPayGrade);
         }
 
-        public async Task<PayGradeDeleteResponseDTO> DeleteAsync(DeletePayGradeDTO deletePayGradeDTO, CancellationToken ct = default) 
+        public async Task<PayGradeDeleteResponseDTO> DeleteAsync(DeletePayGradeDTO deletePayGradeDTO, CancellationToken ct = default)
         {
             var id = deletePayGradeDTO.PayGradeId;
             var payGrade = await _payGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == id, ct);
 
             if (payGrade == null)
             {
-                _logger.LogError("PayGradeService (DeleteAsync) - ResourceNotFoundException: No Pay Grade with id = \"{id}\" was found.", id);
-                throw new ResourceNotFoundException($"No Pay Grade with id = \"{id}\" was found.");
+                _logger.LogError("PayGradeService (DeleteAsync) - ResourceNotFoundException: No Pay Grade with id = '{id}' was found.", id);
+                throw new ResourceNotFoundException($"No Pay Grade with id = '{id}' was found.");
             }
 
             var isDeleted = await _payGradeRepository.DeleteAsync(payGrade, ct);

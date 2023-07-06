@@ -1,6 +1,6 @@
 ﻿namespace LayerTestApp.Payroll.BAL.Models.DTOs.PayGradeDTOs
 {
-    public class PayGradeResponseDTO : BaseResponseDTO
+    public class PayGradeResponseDTO : BaseResponsePayGradeDTO
     {
         public string PayGradeName { get; set; }
 

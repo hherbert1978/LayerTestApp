@@ -9,35 +9,35 @@ namespace LayerTestApp.Payroll.BAL.Tests
 {
     abstract public class BaseTestClass
     {
-        public IConfiguration Configuration;
+        protected readonly IConfiguration _configuration;
 
-        public LTAPayrollDbContext LtaPayrollDbContext;
+        protected readonly LTAPayrollDbContext _context;
 
-        public Microsoft.Extensions.Logging.ILogger Logger;
+        protected readonly ILogger _logger;
 
-        public IPayGradeService PayGradeService;
+        protected readonly IPayGradeService _payGradeService;
 
-        public string DefaultSchema;
+        protected readonly string _defaultSchema;
 
         public BaseTestClass()
         {
-            Configuration = new ConfigurationBuilder()
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Test");
+            _configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.test.json", optional: false, reloadOnChange: true)
                 .Build();
 
             var services = new ServiceCollection();
-
-            PayrollDALDependencyInjection.AddPayrollDALDI(services, Configuration);
-            PayrollBALDependencyInjection.AddPayrollBALDI(services, Configuration);
+            services.AddPayrollDALDI(_configuration);
+            services.AddPayrollBALDI();
 
             var serviceProvider = services.BuildServiceProvider();
 
-            DefaultSchema = Configuration["Database:DefaultSchemas:LTAPayrollSchema"];
-            LtaPayrollDbContext = (LTAPayrollDbContext)serviceProvider.GetServices(typeof(LTAPayrollDbContext)).First();
-            Logger = ((ILoggerFactory)serviceProvider.GetServices(typeof(ILoggerFactory)).First()).CreateLogger("TestLogger");
+            _defaultSchema = _configuration["Database:DefaultSchemas:LTAPayrollSchema"];
+            _context = (LTAPayrollDbContext)serviceProvider.GetServices(typeof(LTAPayrollDbContext)).First();
+            _logger = ((ILoggerFactory)serviceProvider.GetServices(typeof(ILoggerFactory)).First()).CreateLogger("TestLogger");
 
-            PayGradeService = (IPayGradeService)serviceProvider.GetServices(typeof(IPayGradeService)).First();
+            _payGradeService = (IPayGradeService)serviceProvider.GetServices(typeof(IPayGradeService)).First();
         }
 
     }

@@ -87,11 +87,11 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             if (_nameProperty != null)
             {
                 string entityNameValue = typeof(T).GetProperty(_nameProperty).GetValue(entity).ToString();
-                _logger.Log(LogLevel.Information, "Updating {entity} with id: \"{entityIdValue}\" & name: \"{entityNameValue}\".", _tType, entityIdValue, entityNameValue);
+                _logger.Log(LogLevel.Information, "Updating {entity} with id: '{entityIdValue}' & name: '{entityNameValue}'.", _tType, entityIdValue, entityNameValue);
             }
             else
             {
-                _logger.Log(LogLevel.Information, "Updating {entity} with id: \"{entityIdValue}\".", _tType, entityIdValue);
+                _logger.Log(LogLevel.Information, "Updating {entity} with id: '{entityIdValue}'.", _tType, entityIdValue);
             }
 
             _context.Update(entity);
@@ -100,11 +100,11 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             if (_nameProperty != null)
             {
                 string entityNameValue = typeof(T).GetProperty(_nameProperty).GetValue(entity).ToString();
-                _logger.Log(LogLevel.Information, "{entity} with id: \"{entityIdValue}\" & name: \"{entityNameValue}\" was updated.", _tType, entityIdValue, entityNameValue);
+                _logger.Log(LogLevel.Information, "{entity} with id: '{entityIdValue}' & name: '{entityNameValue}' was updated.", _tType, entityIdValue, entityNameValue);
             }
             else
             {
-                _logger.Log(LogLevel.Information, "{entity} with id: \"{entityIdValue}\" was updated.", _tType, entityIdValue);
+                _logger.Log(LogLevel.Information, "{entity} with id: '{entityIdValue}' was updated.", _tType, entityIdValue);
             }
 
             return entity;
@@ -116,11 +116,11 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             if (_nameProperty != null)
             {
                 string entityNameValue = typeof(T).GetProperty(_nameProperty).GetValue(entity).ToString();
-                _logger.Log(LogLevel.Information, "Deleting {entity} with id: \"{entityIdValue}\" & name: \"{entityNameValue}\".", _tType, entityIdValue, entityNameValue);
+                _logger.Log(LogLevel.Information, "Deleting {entity} with id: '{entityIdValue}' & name: '{entityNameValue}'.", _tType, entityIdValue, entityNameValue);
             }
             else
             {
-                _logger.Log(LogLevel.Information, "Deleting {entity} with id: \"{entityIdValue}\".", _tType, entityIdValue);
+                _logger.Log(LogLevel.Information, "Deleting {entity} with id: '{entityIdValue}'.", _tType, entityIdValue);
             }
 
             _context.Remove(entity);
@@ -129,11 +129,11 @@ namespace LayerTestApp.Payroll.DAL.Repositories
             if (_nameProperty != null)
             {
                 string entityNameValue = typeof(T).GetProperty(_nameProperty).GetValue(entity).ToString();
-                _logger.Log(LogLevel.Information, "{entity} with id: \"{entityIdValue}\" & name: \"{entityNameValue}\" was deleted.", _tType, entityIdValue, entityNameValue);
+                _logger.Log(LogLevel.Information, "{entity} with id: '{entityIdValue}' & name: '{entityNameValue}' was deleted.", _tType, entityIdValue, entityNameValue);
             }
             else
             {
-                _logger.Log(LogLevel.Information, "{entity} with id: \"{entityIdValue}\" was deleted.", _tType, entityIdValue);
+                _logger.Log(LogLevel.Information, "{entity} with id: '{entityIdValue}' was deleted.", _tType, entityIdValue);
             }
 
             return true;

@@ -1,8 +1,6 @@
 ﻿using FluentValidation.TestHelper;
 using LayerTestApp.Payroll.BAL.Models.DTOs.PayGradeDTOs;
 using LayerTestApp.Payroll.BAL.Models.Validators.PayGradeValidators;
-using LayerTestApp.Payroll.DAL.Data;
-using LayerTestApp.Payroll.DAL.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace LayerTestApp.Payroll.BAL.Tests
@@ -16,20 +14,20 @@ namespace LayerTestApp.Payroll.BAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            Logger.LogInformation("------------------------------------------------------------------------------------------");
-            Logger.LogInformation("Starting ValidatorTests.");
-            Logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
+            _logger.LogInformation("------------------------------------------------------------------------------------------");
+            _logger.LogInformation("Starting ValidatorTests.");
+            _logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
 
-            _createPayGradeDTOValidator = new CreatePayGradeDTOValidator(PayGradeService);
-            _updatePayGradeDTOValidator = new UpdatePayGradeDTOValidator(PayGradeService);
+            _createPayGradeDTOValidator = new CreatePayGradeDTOValidator(_payGradeService);
+            _updatePayGradeDTOValidator = new UpdatePayGradeDTOValidator(_payGradeService);
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Logger.LogInformation("------------------------------------------------------------------------------------------");
-            Logger.LogInformation("Finishing ValidatorTests.");
-            Logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
+            _logger.LogInformation("------------------------------------------------------------------------------------------");
+            _logger.LogInformation("Finishing ValidatorTests.");
+            _logger.LogInformation("------------------------------------------------------------------------------------------\r\n");
         }
 
         #region "CreatePayGradeDTOValidator"
@@ -37,7 +35,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
         [Test, Order(1)]
         public async Task CreatePayGradeDTOValidatorUniqueNameFailureTest()
         {
-            Logger.LogInformation("Starting CreatePayGradeDTOValidatorUniqueNameFailureTest.");
+            _logger.LogInformation("Starting CreatePayGradeDTOValidatorUniqueNameFailureTest.");
 
             var createPayGradeDTO = new CreatePayGradeDTO("Meister");
 
@@ -48,22 +46,22 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(false));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(1));
+                    Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
                     Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name already exists."));
-                });                
-                Logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
+                });
+                _logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished with error. \r\n");
             }
         }
 
         [Test, Order(2)]
         public async Task CreatePayGradeDTOValidatorUniqueNameSuccessTest()
         {
-            Logger.LogInformation("Starting CreatePayGradeDTOValidatorUniqueNameSuccessTest.");
+            _logger.LogInformation("Starting CreatePayGradeDTOValidatorUniqueNameSuccessTest.");
 
             var createPayGradeDTO = new CreatePayGradeDTO("Azubi");
 
@@ -74,20 +72,20 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(true));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(0));
+                    Assert.That(result.Errors, Has.Count.EqualTo(0));
                 });
-                Logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameSuccessTest - Test finished successfully. \r\n");
+                _logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameSuccessTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameSuccessTest - Test finished with error. \r\n");
-            }       
+                _logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameSuccessTest - Test finished with error. \r\n");
+            }
         }
 
         [Test, Order(3)]
         public async Task CreatePayGradeDTOValidatorMinLengthFailureTest()
         {
-            Logger.LogInformation("Starting CreatePayGradeDTOValidatorMinLengthFailureTest.");
+            _logger.LogInformation("Starting CreatePayGradeDTOValidatorMinLengthFailureTest.");
 
             var createPayGradeDTO = new CreatePayGradeDTO("H");
 
@@ -98,22 +96,22 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(false));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(1));
+                    Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
                     Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name should have minimum 5 characters."));
                 });
-                Logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
+                _logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished with error. \r\n");
             }
         }
 
         [Test, Order(4)]
         public async Task CreatePayGradeDTOValidatorMaxLengthFailureTest()
         {
-            Logger.LogInformation("Starting CreatePayGradeDTOValidatorMaxLengthFailureTest.");
+            _logger.LogInformation("Starting CreatePayGradeDTOValidatorMaxLengthFailureTest.");
 
             var createPayGradeDTO = new CreatePayGradeDTO("MeisterGeselleLehrlingFeldarbeiterHilfsarbeiterAushilfe");
 
@@ -124,15 +122,15 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(false));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(1));
+                    Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
                     Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name should have maximum 50 characters."));
                 });
-                Logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
+                _logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished with error. \r\n");
             }
         }
 
@@ -143,7 +141,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
         [Test, Order(5)]
         public async Task UpdatePayGradeDTOValidatorUniqueNameFailureTest()
         {
-            Logger.LogInformation("Starting UpdatePayGradeDTOValidatorUniqueNameFailureTest.");
+            _logger.LogInformation("Starting UpdatePayGradeDTOValidatorUniqueNameFailureTest.");
 
             var updatePayGradeDTO = new UpdatePayGradeDTO(3, "Meister", true);
 
@@ -154,22 +152,22 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(false));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(1));
+                    Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
                     Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name already exists."));
                 });
-                Logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
+                _logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished with error. \r\n");
             }
         }
 
         [Test, Order(6)]
         public async Task UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest()
         {
-            Logger.LogInformation("Starting UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest.");
+            _logger.LogInformation("Starting UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest.");
 
             var updatePayGradeDTO = new UpdatePayGradeDTO(5, "Hilfsarbeiter", true);
 
@@ -180,20 +178,20 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(true));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(0));
+                    Assert.That(result.Errors, Has.Count.EqualTo(0));
                 });
-                Logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest - Test finished successfully. \r\n");
+                _logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "Validator Test - UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest - Test finished with error. \r\n");
             }
         }
 
         [Test, Order(7)]
         public async Task UpdatePayGradeDTOValidatorUniqueNameWithChangingNameSuccessTest()
         {
-            Logger.LogInformation("Starting UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest.");
+            _logger.LogInformation("Starting UpdatePayGradeDTOValidatorUniqueNameWithoutChangingNameSuccessTest.");
 
             var updatePayGradeDTO = new UpdatePayGradeDTO(5, "Aushilfsarbeiter", false);
 
@@ -204,22 +202,22 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(true));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(0));
+                    Assert.That(result.Errors, Has.Count.EqualTo(0));
                 });
-                Logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorUniqueNameWithChangingNameSuccessTest - Test finished successfully. \r\n");
+                _logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorUniqueNameWithChangingNameSuccessTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - UpdatePayGradeDTOValidatorUniqueNameWithChangingNameSuccessTest - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "Validator Test - UpdatePayGradeDTOValidatorUniqueNameWithChangingNameSuccessTest - Test finished with error. \r\n");
             }
         }
 
         [Test, Order(8)]
         public async Task UpdatePayGradeDTOValidatorMinLengthFailureTest()
         {
-            Logger.LogInformation("Starting UpdatePayGradeDTOValidatorMinLengthFailureTest.");
+            _logger.LogInformation("Starting UpdatePayGradeDTOValidatorMinLengthFailureTest.");
 
-            var updatePayGradeDTO = new UpdatePayGradeDTO(1,"H", false);
+            var updatePayGradeDTO = new UpdatePayGradeDTO(1, "H", false);
 
             try
             {
@@ -228,22 +226,22 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(false));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(1));
+                    Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
                     Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name should have minimum 5 characters."));
                 });
-                Logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorMinLengthFailureTest - Test finished successfully. \r\n");
+                _logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorMinLengthFailureTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - UpdatePayGradeDTOValidatorMinLengthFailureTest - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "Validator Test - UpdatePayGradeDTOValidatorMinLengthFailureTest - Test finished with error. \r\n");
             }
         }
 
         [Test, Order(9)]
         public async Task UpdatePayGradeDTOValidatorMaxLengthFailureTest()
         {
-            Logger.LogInformation("Starting CreatePayGradeDTOValidatorMaxLengthFailureTest.");
+            _logger.LogInformation("Starting CreatePayGradeDTOValidatorMaxLengthFailureTest.");
 
             var updatePayGradeDTO = new UpdatePayGradeDTO(4, "MeisterGeselleLehrlingFeldarbeiterHilfsarbeiterAushilfe", true);
 
@@ -254,15 +252,15 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.EqualTo(false));
-                    Assert.That(result.Errors.Count(), Is.EqualTo(1));
+                    Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
                     Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name should have maximum 50 characters."));
                 });
-                Logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorMaxLengthFailureTest - Test finished successfully. \r\n");
+                _logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorMaxLengthFailureTest - Test finished successfully. \r\n");
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex, "Validator Test - UpdatePayGradeDTOValidatorMaxLengthFailureTest - Test finished with error. \r\n");
+                _logger.LogInformation(ex, "Validator Test - UpdatePayGradeDTOValidatorMaxLengthFailureTest - Test finished with error. \r\n");
             }
         }
 

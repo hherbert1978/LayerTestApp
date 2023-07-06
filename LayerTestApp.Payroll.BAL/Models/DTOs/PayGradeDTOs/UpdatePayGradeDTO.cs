@@ -3,7 +3,9 @@
     public class UpdatePayGradeDTO
     {
         public int PayGradeId { get; set; }
+
         public string PayGradeName { get; set; }
+        
         public bool IsActive { get; set; }
 
         public UpdatePayGradeDTO(int payGradeId, string payGradeName, bool isActive)
