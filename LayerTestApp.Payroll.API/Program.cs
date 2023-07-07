@@ -36,6 +36,15 @@ app.UseAuthorization();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+// for Swagger in Docker http -- start --
+app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials()); // allow credentials
+// // for Swagger in Docker http -- end --
+
 app.MapControllers();
 
 app.Run();
@@ -57,6 +66,8 @@ static void ConfigureServices(WebApplicationBuilder builder)
     IServiceCollection services = builder.Services;
     ConfigurationManager configuration = builder.Configuration;
     IWebHostEnvironment environment = builder.Environment;
+
+    services.AddCors(); // for Swagger in Docker http
 
     services.AddControllers();
 

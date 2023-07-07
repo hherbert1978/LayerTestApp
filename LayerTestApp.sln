@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LayerTestApp.Payroll.BAL", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LayerTestApp.Payroll.BAL.Tests", "LayerTestApp.Payroll.BAL.Tests\LayerTestApp.Payroll.BAL.Tests.csproj", "{050C625A-26A5-4634-92D5-966DC9C7C0E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayerTestApp.Payroll.API", "LayerTestApp.Payroll.API\LayerTestApp.Payroll.API.csproj", "{1A6BE8C0-D960-42B2-B9D8-1F06BFE85136}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LayerTestApp.Payroll.API", "LayerTestApp.Payroll.API\LayerTestApp.Payroll.API.csproj", "{1A6BE8C0-D960-42B2-B9D8-1F06BFE85136}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

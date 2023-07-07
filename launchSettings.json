@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "layertestapp.payroll.api": "StartDebugging"
+      },
+      "DockerfileRunArguments": "--network postgres_de_pgadmin4_app-tier"
+    }
+  }
+}

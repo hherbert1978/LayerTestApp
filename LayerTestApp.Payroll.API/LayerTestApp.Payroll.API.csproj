@@ -7,12 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>c2dc7d6b-937e-4125-a6d2-ced288c0bf72</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileRunArguments>-v "K:\source\repos\LayerTestApp\Logs:/logs" --network postgres_de_pgadmin4_app-tier -e TZ=America/Asuncion</DockerfileRunArguments>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controllers\WeatherForecastController.cs" />
-    <Compile Remove="WeatherForecast.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.8" />
