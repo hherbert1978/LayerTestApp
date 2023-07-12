@@ -19,41 +19,75 @@ namespace LayerTestApp.Payroll.API.Controllers
             PayGradeService = payGradeService;
         }
 
-        // GET: api/<PayGradeController>/GetAllPayGrades
+        #region "Get"
+
+        // GET: api/<PayGradeController>/GetAll
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllPayGrades()
         {
             var payGrades = await PayGradeService.GetAllAsync();
-            return Ok(new APIResponse<IEnumerable<PayGradeResponseDTO>>(payGrades));
+            return new OkObjectResult(new APIResponse<IEnumerable<PayGradeResponseDTO>>(payGrades));
         }
 
-        // GET api/<PayGradeController>/5
+        // GET: api/<PayGradeController>/GetAllActive
+        [HttpGet("GetAllActive")]
+        public async Task<IActionResult> GetAllActivePayGrades()
+        {
+            var payGrades = await PayGradeService.GetAllActiveAsync();
+            return new OkObjectResult(new APIResponse<IEnumerable<PayGradeResponseDTO>>(payGrades));
+        }
+
+        // GET api/<PayGradeController>/GetById/5
         [HttpGet("GetById/{id}")]
 
         public async Task<IActionResult> GetById(int id)
         {
             var payGrade = await PayGradeService.GetByIdAsync(id);
-            return Ok(new APIResponse<PayGradeResponseDTO>(payGrade));
+            return new OkObjectResult(new APIResponse<PayGradeResponseDTO>(payGrade));
         }
 
-        // POST api/<PayGradeController>
-        [HttpPost]
-        public bool Post([FromBody] string value)
-        {
+        // GET api/<PayGradeController>/GetByName/Test des PayGrade
+        [HttpGet("GetByName/{name}")]
 
-            throw new ResourceNotFoundException("LoggerTest");
+        public async Task<IActionResult> GetByName(string name)
+        {
+            var payGrade = await PayGradeService.GetByNameAsync(name);
+            return new OkObjectResult(new APIResponse<PayGradeResponseDTO>(payGrade));
         }
 
-        // PUT api/<PayGradeController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // GET api/<PayGradeController>/GetByName/Test des PayGrade
+        [HttpGet("GetIdByName/{name}")]
+
+        public async Task<IActionResult> GetIdByName(string name)
         {
+            var payGradeId = await PayGradeService.GetIdByNameAsync(name);
+            return new OkObjectResult(new APIResponse<int>(payGradeId));
         }
 
-        // DELETE api/<PayGradeController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        #endregion
+
+        // Post: api/<PayGradeController>/Create
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreatePayGrade(CreatePayGradeDTO createPayGradeDTO)
         {
+            var createResponse = await PayGradeService.CreateAsync(createPayGradeDTO);
+            return new OkObjectResult(new APIResponse<PayGradeResponseDTO>(createResponse));
+        }
+
+        // PUT api/<PayGradeController>/Update
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdatePayGrade(UpdatePayGradeDTO updatePayGradeDTO)
+        {
+            var updateResponse = await PayGradeService.UpdateAsync(updatePayGradeDTO);
+            return new OkObjectResult(new APIResponse<PayGradeResponseDTO>(updateResponse));
+        }
+
+        // DELETE api/<PayGradeController>/Delete
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeletePayGrade(DeletePayGradeDTO deletePayGradeDTO)
+        {
+            var deleteResponse = await PayGradeService.DeleteAsync(deletePayGradeDTO);
+            return new OkObjectResult(new APIResponse<PayGradeDeleteResponseDTO>(deleteResponse));
         }
     }
 }

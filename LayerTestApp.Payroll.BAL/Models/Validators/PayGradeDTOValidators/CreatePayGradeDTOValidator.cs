@@ -17,13 +17,13 @@ namespace LayerTestApp.Payroll.BAL.Models.Validators.PayGradeValidators
                 .WithMessage("PayGrade name should have minimum 5 characters.")
                 .MaximumLength(50)
                 .WithMessage("PayGrade name should have maximum 50 characters.")
-                .MustAsync(PayGradeNameIsUnique)
+                .Must(PayGradeNameIsUnique)
                 .WithMessage("PayGrade name already exists.");
         }
 
-        private async Task<bool> PayGradeNameIsUnique(string payGradeName, CancellationToken ct)
+        private bool PayGradeNameIsUnique(string payGradeName)
         {
-            bool payGradeNameExists = await _payGradeService.NameExistsAsync(payGradeName, ct);
+            bool payGradeNameExists = Task.Run(() => _payGradeService.NameExistsAsync(payGradeName)).Result;
             return !payGradeNameExists;
         }
     }

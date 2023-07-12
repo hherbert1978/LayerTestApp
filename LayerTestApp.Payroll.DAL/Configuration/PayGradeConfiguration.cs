@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+
 namespace LayerTestApp.Payroll.DAL.Configuration
 {
     public class PayGradeConfiguration : BaseModelConfiguration<PayGrade>

@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using LayerTestApp.Payroll.API.Attributes;
 using LayerTestApp.Payroll.API.Middleware;
 using LayerTestApp.Payroll.BAL;
 using LayerTestApp.Payroll.BAL.Models.Validators;
@@ -69,10 +70,23 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     services.AddCors(); // for Swagger in Docker http
 
-    services.AddControllers();
+    //services.AddControllers(
+    //            config => config.Filters.Add(typeof(ValidateModelAttribute))
+    //        )
+    //        .AddFluentValidation(
+    //            options => options.RegisterValidatorsFromAssemblyContaining<IValidatorsMarker>()
+    //        );
+
+
+
+    services.AddControllers(config => config.Filters.Add(typeof(ValidationAttribute)));
 
     services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
     services.AddValidatorsFromAssemblyContaining<IValidatorsMarker>();
+
+
+
+
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();

@@ -24,19 +24,19 @@ namespace LayerTestApp.Payroll.BAL.Services
         public async Task<IEnumerable<PayGradeResponseDTO>> GetAllAsync(CancellationToken ct = default)
         {
             var payGrades = await _payGradeRepository.GetAllAsync(ct);
-            return _mapper.Map<IEnumerable<PayGradeResponseDTO>>(payGrades);
+            return _mapper.Map<IEnumerable<PayGradeResponseDTO>>(payGrades.OrderBy(x => x.PayGradeId));
         }
 
         public async Task<IEnumerable<PayGradeResponseDTO>> GetAllActiveAsync(CancellationToken ct = default)
         {
             var activePayGrades = await _payGradeRepository.GetFilteredAsync(x => x.IsActive, ct);
-            return _mapper.Map<IEnumerable<PayGradeResponseDTO>>(activePayGrades);
+            return _mapper.Map<IEnumerable<PayGradeResponseDTO>>(activePayGrades.OrderBy(x => x.PayGradeId));
         }
 
         public async Task<IEnumerable<PayGradeResponseDTO>> GetAllDeletedAsync(CancellationToken ct = default)
         {
             var deletedPayGrades = await _payGradeRepository.GetAllDeletedAsync(ct);
-            return _mapper.Map<IEnumerable<PayGradeResponseDTO>>(deletedPayGrades);
+            return _mapper.Map<IEnumerable<PayGradeResponseDTO>>(deletedPayGrades.OrderBy(x => x.PayGradeId));
         }
 
         public async Task<PayGradeResponseDTO> GetByIdAsync(int id, CancellationToken ct = default)
@@ -63,6 +63,18 @@ namespace LayerTestApp.Payroll.BAL.Services
             }
 
             return _mapper.Map<PayGradeResponseDTO>(payGrade);
+        }
+
+        public async Task<bool> IdExistsAsync(int id, CancellationToken ct = default)
+        {
+            var payGrade = await _payGradeRepository.GetFirstOrDefaultAsync(x => x.PayGradeId == id, ct);
+
+            if (payGrade != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> NameExistsAsync(string name, CancellationToken ct = default)

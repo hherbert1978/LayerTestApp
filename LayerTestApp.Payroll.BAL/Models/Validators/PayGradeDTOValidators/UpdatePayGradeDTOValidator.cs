@@ -12,6 +12,10 @@ namespace LayerTestApp.Payroll.BAL.Models.Validators.PayGradeValidators
         {
             _payGradeService = payGradeService;
 
+            //RuleFor(upg => upg.PayGradeId)
+            //    .Must(PayGradeIdExists)
+            //    .WithMessage("PayGrade Id not exists.");
+
             RuleFor(upg => upg.PayGradeName)
                 .MinimumLength(5)
                 .WithMessage("PayGrade name should have minimum 5 characters.")
@@ -19,26 +23,34 @@ namespace LayerTestApp.Payroll.BAL.Models.Validators.PayGradeValidators
                 .WithMessage("PayGrade name should have maximum 50 characters.");
 
             RuleFor(upg => upg)
-                .MustAsync(PayGradeNameIsUnique)
+                .Must(PayGradeNameIsUnique)
                 .WithName("PayGradeName")
                 .WithMessage("PayGrade name already exists.");
         }
 
-        private async Task<bool> PayGradeNameIsUnique(UpdatePayGradeDTO upg, CancellationToken ct)
+        private bool PayGradeIdExists(int id)
         {
+            bool payGradeExists = Task.Run(() => _payGradeService.IdExistsAsync(id)).Result;
+            return payGradeExists;
+        }
+
+        private bool PayGradeNameIsUnique(UpdatePayGradeDTO upg)
+        {
+
+            if (!PayGradeIdExists(upg.PayGradeId)) { return true; }
+
             bool payGradeNameExists = false;
 
-            bool payGradeNameExistsInDB = await _payGradeService.NameExistsAsync(upg.PayGradeName, ct);
+            bool payGradeNameExistsInDB = Task.Run(() => _payGradeService.NameExistsAsync(upg.PayGradeName)).Result;
             int? id;
 
             if (payGradeNameExistsInDB)
             {
-                id = await _payGradeService.GetIdByNameAsync(upg.PayGradeName, ct);
+                id = Task.Run(() => _payGradeService.GetIdByNameAsync(upg.PayGradeName)).Result;
                 payGradeNameExists = (id != upg.PayGradeId);
             }
 
             return !payGradeNameExists;
-        }
-
+        }       
     }
 }

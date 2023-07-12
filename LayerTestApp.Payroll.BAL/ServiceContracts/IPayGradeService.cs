@@ -14,6 +14,8 @@ namespace LayerTestApp.Payroll.BAL.ServiceContracts
 
         Task<PayGradeResponseDTO> GetByNameAsync(string name, CancellationToken ct = default);
 
+        Task<bool> IdExistsAsync(int id, CancellationToken ct = default);
+
         Task<bool> NameExistsAsync(string name, CancellationToken ct = default);
 
         Task<int> GetIdByNameAsync(string name, CancellationToken ct = default);
