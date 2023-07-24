@@ -78,7 +78,6 @@ static void ConfigureServices(WebApplicationBuilder builder)
     //        );
 
 
-
     services.AddControllers(config => config.Filters.Add(typeof(ValidationAttribute)));
 
     services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();

@@ -14,11 +14,11 @@ namespace LayerTestApp.Payroll.BAL.Models.Validators.PayGradeValidators
 
             RuleFor(cpg => cpg.PayGradeName)
                 .MinimumLength(5)
-                .WithMessage("PayGrade name should have minimum 5 characters.")
+                .WithMessage("PayGradeName should have minimum 5 characters.")
                 .MaximumLength(50)
-                .WithMessage("PayGrade name should have maximum 50 characters.")
+                .WithMessage("PayGradeName should have maximum 50 characters.")
                 .Must(PayGradeNameIsUnique)
-                .WithMessage("PayGrade name already exists.");
+                .WithMessage("PayGradeName already exists.");
         }
 
         private bool PayGradeNameIsUnique(string payGradeName)

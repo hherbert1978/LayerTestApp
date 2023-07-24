@@ -48,7 +48,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
                     Assert.That(result.IsValid, Is.EqualTo(false));
                     Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
-                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name already exists."));
+                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGradeName already exists."));
                 });
                 _logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
             }
@@ -87,7 +87,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
         {
             _logger.LogInformation("Starting CreatePayGradeDTOValidatorMinLengthFailureTest.");
 
-            var createPayGradeDTO = new CreatePayGradeDTO("H");
+            var createPayGradeDTO = new CreatePayGradeDTO("H", false);
 
             try
             {
@@ -98,7 +98,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
                     Assert.That(result.IsValid, Is.EqualTo(false));
                     Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
-                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name should have minimum 5 characters."));
+                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGradeName should have minimum 5 characters."));
                 });
                 _logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
             }
@@ -113,7 +113,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
         {
             _logger.LogInformation("Starting CreatePayGradeDTOValidatorMaxLengthFailureTest.");
 
-            var createPayGradeDTO = new CreatePayGradeDTO("MeisterGeselleLehrlingFeldarbeiterHilfsarbeiterAushilfe");
+            var createPayGradeDTO = new CreatePayGradeDTO("MeisterGeselleLehrlingFeldarbeiterHilfsarbeiterAushilfe", false);
 
             try
             {
@@ -124,7 +124,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
                     Assert.That(result.IsValid, Is.EqualTo(false));
                     Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
-                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name should have maximum 50 characters."));
+                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGradeName should have maximum 50 characters."));
                 });
                 _logger.LogInformation("Validator Test - CreatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
             }
@@ -154,7 +154,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
                     Assert.That(result.IsValid, Is.EqualTo(false));
                     Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
-                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name already exists."));
+                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGradeName already exists."));
                 });
                 _logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorUniqueNameFailureTest - Test finished successfully. \r\n");
             }
@@ -228,7 +228,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
                     Assert.That(result.IsValid, Is.EqualTo(false));
                     Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
-                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name should have minimum 5 characters."));
+                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGradeName should have minimum 5 characters."));
                 });
                 _logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorMinLengthFailureTest - Test finished successfully. \r\n");
             }
@@ -254,7 +254,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
                     Assert.That(result.IsValid, Is.EqualTo(false));
                     Assert.That(result.Errors, Has.Count.EqualTo(1));
                     Assert.That(result.Errors.FirstOrDefault()?.PropertyName, Is.EqualTo("PayGradeName"));
-                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGrade name should have maximum 50 characters."));
+                    Assert.That(result.Errors.FirstOrDefault()?.ErrorMessage, Is.EqualTo("PayGradeName should have maximum 50 characters."));
                 });
                 _logger.LogInformation("Validator Test - UpdatePayGradeDTOValidatorMaxLengthFailureTest - Test finished successfully. \r\n");
             }

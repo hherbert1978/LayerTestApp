@@ -245,7 +245,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
         public void CreatePayGradeAsync()
         {
             _logger.LogInformation("Starting CreatePayGradeAsync - Test.");
-            var payGradeDTO = new CreatePayGradeDTO("Neue Gehaltsstufe");
+            var payGradeDTO = new CreatePayGradeDTO("Neue Gehaltsstufe", false);
 
             try
             {
@@ -255,7 +255,7 @@ namespace LayerTestApp.Payroll.BAL.Tests
                 {
                     Assert.That(payGrade.PayGradeId, Is.EqualTo(7));
                     Assert.That(payGrade.PayGradeName, Is.EqualTo("Neue Gehaltsstufe"));
-                    Assert.That(payGrade.IsActive, Is.True);
+                    Assert.That(payGrade.IsActive, Is.False);
                 });
 
                 _logger.LogInformation("PayGradeService Test - CreatePayGradeAsync - Test finished successfully. \r\n");

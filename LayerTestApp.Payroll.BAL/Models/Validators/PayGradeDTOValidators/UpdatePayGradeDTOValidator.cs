@@ -18,14 +18,14 @@ namespace LayerTestApp.Payroll.BAL.Models.Validators.PayGradeValidators
 
             RuleFor(upg => upg.PayGradeName)
                 .MinimumLength(5)
-                .WithMessage("PayGrade name should have minimum 5 characters.")
+                .WithMessage("PayGradeName should have minimum 5 characters.")
                 .MaximumLength(50)
-                .WithMessage("PayGrade name should have maximum 50 characters.");
+                .WithMessage("PayGradeName should have maximum 50 characters.");
 
             RuleFor(upg => upg)
                 .Must(PayGradeNameIsUnique)
                 .WithName("PayGradeName")
-                .WithMessage("PayGrade name already exists.");
+                .WithMessage("PayGradeName already exists.");
         }
 
         private bool PayGradeIdExists(int id)

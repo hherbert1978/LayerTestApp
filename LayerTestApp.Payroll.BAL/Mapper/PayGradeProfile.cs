@@ -9,8 +9,8 @@ namespace LayerTestApp.Payroll.BAL.Mapper
         public PayGradeProfile()
         {
             // BAL to DTO and reverse    
-            CreateMap<CreatePayGradeDTO, PayGrade>()
-                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+            CreateMap<CreatePayGradeDTO, PayGrade>();
+                //.ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
 
             CreateMap<PayGrade, PayGradeResponseDTO>();
         }
