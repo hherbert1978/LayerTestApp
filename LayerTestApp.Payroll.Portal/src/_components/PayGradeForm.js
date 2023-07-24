@@ -43,6 +43,29 @@ var snackBarText = "";
 
 const PayGradeForm = ({ classes, ...props }) => {
 
+    const validate = (fieldValues = values) => {
+        let temp = { ...errors }
+        if ("payGradeName" in fieldValues) {
+            var payGradeNameErrors = [];
+            if (fieldValues.payGradeName === "")
+                payGradeNameErrors.push("This field is required.")
+            if (fieldValues.payGradeName.length < 5)
+                payGradeNameErrors.push("This field should have minimum 5 characters.")
+            if (fieldValues.payGradeName.length > 50)
+                payGradeNameErrors.push("This field should have maximum 50 characters.")
+            
+            temp.payGradeName = payGradeNameErrors.length > 0 ? payGradeNameErrors : "";
+        }           
+
+        setErrors({
+            ...temp
+        })
+
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
+    }
+
+
     console.log(props)
     
     const [ openAlertErrorDialog, setOpenAlertErrorDialog ] = useState(false);
@@ -58,29 +81,32 @@ const PayGradeForm = ({ classes, ...props }) => {
         handleTextboxChange,
         handleCheckboxChange,
         resetForm
-    } = CustomForm(initialFormValues, props.setCurrentId)
+    } = CustomForm(initialFormValues, props.setCurrentId, validate)
 
     const handleSubmit = e => {
         e.preventDefault()
+        if (validate()) {
+            
 
-        const onSuccess = (responseText) => 
-        {
-            resetForm();
-            snackBarText = responseText
-            setOpenSuccessSnackBar(true);
+            const onSuccess = (responseText) => 
+            {
+                resetForm();
+                snackBarText = responseText
+                setOpenSuccessSnackBar(true);
+            }
+
+            const onFailure = (errors, errorDialogTitle) => {
+                resetForm();
+                setErrors(errors)
+                setAlertErrorDialogTitle(errorDialogTitle)
+                setOpenAlertErrorDialog(true);
+            }
+
+            if (props.currentId === 0)
+                props.createPayGrade(values, onSuccess, onFailure)
+            else
+                props.updatePayGrade(values, onSuccess, onFailure)
         }
-
-        const onFailure = (errors, errorDialogTitle) => {
-            resetForm();
-            setErrors(errors)
-            setAlertErrorDialogTitle(errorDialogTitle)
-            setOpenAlertErrorDialog(true);
-        }
-
-        if (props.currentId === 0)
-            props.createPayGrade(values, onSuccess, onFailure)
-        else
-            props.updatePayGrade(values, onSuccess, onFailure)
     }
 
     useEffect(() => {
@@ -114,6 +140,15 @@ const PayGradeForm = ({ classes, ...props }) => {
                         label="Name der Gehaltsklasse"
                         value= { values.payGradeName }
                         onChange= { handleTextboxChange }
+                        // {...(errors.payGradeName && { error: true, helperText: errors.payGradeName })}
+                        {...(errors.payGradeName && { error: true, helperText: Array.isArray(errors.payGradeName) ? 
+                            errors.payGradeName.map((item, index) => {
+                                return <span key={index}>{item}<br /></span>
+                            }) : null })}
+
+                   
+
+
                         fullWidth= { true } />
                     <FormGroup>
                         <FormControlLabel control= {

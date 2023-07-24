@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function CustomForm(initialFormValues, setCurrentId) 
+export default function CustomForm(initialFormValues, setCurrentId, validate) 
 {
     const [ values, setValues ] = useState(initialFormValues)
     const [ errors, setErrors ] = useState({})
@@ -21,6 +21,7 @@ export default function CustomForm(initialFormValues, setCurrentId)
             ...values,
             ...fieldValue
         })
+        validate(fieldValue)
     }
 
     const resetForm = () => {
